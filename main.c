@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include "main.h"
+
 //#include "libb/library.c"
-#include "libb/library.c"
+#include "libb/src/library.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 int main(void) {
     my_str_t x;

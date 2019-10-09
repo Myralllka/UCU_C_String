@@ -7,28 +7,28 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCInformation.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCommonLanguageInclude.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeExtraGeneratorDetermineCompilerMacrosAndIncludeDirs.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeFindCodeBlocks.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeGenericSystem.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeInitializeConfigs.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeLanguageInformation.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeSystemSpecificInformation.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/GNU-C.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/GNU.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Internal/CMakeCheckCompilerFlag.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux-GNU-C.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux-GNU.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/Platform/UnixPaths.cmake"
+  "/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/share/cmake-3.15/Modules/ProcessorCount.cmake"
   "../CMakeLists.txt"
   "CMakeFiles/3.15.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.15.3/CMakeSystem.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCInformation.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeCommonLanguageInclude.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeExtraGeneratorDetermineCompilerMacrosAndIncludeDirs.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeFindCodeBlocks.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeGenericSystem.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeInitializeConfigs.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeLanguageInformation.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeSystemSpecificInformation.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/CMakeSystemSpecificInitialize.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/GNU-C.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Compiler/GNU.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Internal/CMakeCheckCompilerFlag.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux-GNU-C.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux-GNU.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Platform/Linux.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/Platform/UnixPaths.cmake"
-  "/opt/clion/bin/cmake/linux/share/cmake-3.15/Modules/ProcessorCount.cmake"
   )
 
 # The corresponding makefile is:
@@ -44,5 +44,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/libb.dir/DependInfo.cmake"
   "CMakeFiles/lab2.dir/DependInfo.cmake"
+  "CMakeFiles/test.dir/DependInfo.cmake"
   )
