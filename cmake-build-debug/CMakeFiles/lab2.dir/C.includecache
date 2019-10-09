@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/myralllka/Documents/PoCO/lab2/libb/library.h
+stdlib.h
+-
+stdio.h
+-
+
+/home/myralllka/Documents/PoCO/lab2/main.c
+stdio.h
+-
+main.h
+/home/myralllka/Documents/PoCO/lab2/main.h
+libb/library.h
+/home/myralllka/Documents/PoCO/lab2/libb/library.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/home/myralllka/Documents/PoCO/lab2/main.h
+
