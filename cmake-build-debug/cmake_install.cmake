@@ -1,4 +1,4 @@
-# Install script for directory: /home/myralllka/Documents/PoCO/lab2
+# Install script for directory: /home/fenix/pr/subj/C_String
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/myralllka/Documents/PoCO/lab2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/fenix/pr/subj/C_String/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

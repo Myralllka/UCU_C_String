@@ -6,19 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/myralllka/Documents/PoCO/lab2/libb/library.h
+/home/fenix/pr/subj/C_String/libb/include/library.h
 stdlib.h
 -
 stdio.h
 -
 
-/home/myralllka/Documents/PoCO/lab2/main.c
+/home/fenix/pr/subj/C_String/libb/src/library.c
+../include/library.h
+/home/fenix/pr/subj/C_String/libb/include/library.h
+stdio.h
+-
+stdlib.h
+-
+
+/home/fenix/pr/subj/C_String/main.c
 stdio.h
 -
 main.h
-/home/myralllka/Documents/PoCO/lab2/main.h
-libb/library.h
-/home/myralllka/Documents/PoCO/lab2/libb/library.h
+/home/fenix/pr/subj/C_String/main.h
+libb/src/library.c
+/home/fenix/pr/subj/C_String/libb/src/library.c
 stdio.h
 -
 stdlib.h
@@ -26,5 +34,5 @@ stdlib.h
 string.h
 -
 
-/home/myralllka/Documents/PoCO/lab2/main.h
+/home/fenix/pr/subj/C_String/main.h
 

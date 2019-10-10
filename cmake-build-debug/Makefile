@@ -23,6 +23,9 @@ SUFFIXES =
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -39,19 +42,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /opt/clion/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /opt/clion/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/myralllka/Documents/PoCO/lab2
+CMAKE_SOURCE_DIR = /home/fenix/pr/subj/C_String
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/myralllka/Documents/PoCO/lab2/cmake-build-debug
+CMAKE_BINARY_DIR = /home/fenix/pr/subj/C_String/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +62,7 @@ CMAKE_BINARY_DIR = /home/myralllka/Documents/PoCO/lab2/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/opt/clion/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +73,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/opt/clion/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/fenix/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/192.6817.18/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +83,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/myralllka/Documents/PoCO/lab2/cmake-build-debug/CMakeFiles /home/myralllka/Documents/PoCO/lab2/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles /home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/myralllka/Documents/PoCO/lab2/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,6 +114,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named libb
+
+# Build rule for target.
+libb: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 libb
+.PHONY : libb
+
+# fast build rule for target.
+libb/fast:
+	$(MAKE) -f CMakeFiles/libb.dir/build.make CMakeFiles/libb.dir/build
+.PHONY : libb/fast
+
+#=============================================================================
 # Target rules for targets named lab2
 
 # Build rule for target.
@@ -122,6 +138,46 @@ lab2: cmake_check_build_system
 lab2/fast:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
 .PHONY : lab2/fast
+
+#=============================================================================
+# Target rules for targets named test
+
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+libb/src/library.o: libb/src/library.c.o
+
+.PHONY : libb/src/library.o
+
+# target to build an object file
+libb/src/library.c.o:
+	$(MAKE) -f CMakeFiles/libb.dir/build.make CMakeFiles/libb.dir/libb/src/library.c.o
+.PHONY : libb/src/library.c.o
+
+libb/src/library.i: libb/src/library.c.i
+
+.PHONY : libb/src/library.i
+
+# target to preprocess a source file
+libb/src/library.c.i:
+	$(MAKE) -f CMakeFiles/libb.dir/build.make CMakeFiles/libb.dir/libb/src/library.c.i
+.PHONY : libb/src/library.c.i
+
+libb/src/library.s: libb/src/library.c.s
+
+.PHONY : libb/src/library.s
+
+# target to generate assembly for a file
+libb/src/library.c.s:
+	$(MAKE) -f CMakeFiles/libb.dir/build.make CMakeFiles/libb.dir/libb/src/library.c.s
+.PHONY : libb/src/library.c.s
 
 main.o: main.c.o
 
@@ -150,6 +206,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.c.s
 .PHONY : main.c.s
 
+tests/tests.o: tests/tests.c.o
+
+.PHONY : tests/tests.o
+
+# target to build an object file
+tests/tests.c.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/tests/tests.c.o
+.PHONY : tests/tests.c.o
+
+tests/tests.i: tests/tests.c.i
+
+.PHONY : tests/tests.i
+
+# target to preprocess a source file
+tests/tests.c.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/tests/tests.c.i
+.PHONY : tests/tests.c.i
+
+tests/tests.s: tests/tests.c.s
+
+.PHONY : tests/tests.s
+
+# target to generate assembly for a file
+tests/tests.c.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/tests/tests.c.s
+.PHONY : tests/tests.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -157,11 +240,19 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... lab2"
 	@echo "... edit_cache"
+	@echo "... libb"
+	@echo "... lab2"
+	@echo "... test"
+	@echo "... libb/src/library.o"
+	@echo "... libb/src/library.i"
+	@echo "... libb/src/library.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... tests/tests.o"
+	@echo "... tests/tests.i"
+	@echo "... tests/tests.s"
 .PHONY : help
 
 
