@@ -15,4 +15,5 @@ int main(void) {
 //    printf("%s", my_str_get_cstr(&x));
     puts(my_str_get_cstr(&x));
     printf("%d", my_str_size(&x));
+    my_str_free(&x);
 }
