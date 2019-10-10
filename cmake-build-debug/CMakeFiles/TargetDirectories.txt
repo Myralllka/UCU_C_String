@@ -1,5 +1,0 @@
-/home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/libb.dir
-/home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/lab2.dir
-/home/fenix/pr/subj/C_String/cmake-build-debug/CMakeFiles/test.dir
