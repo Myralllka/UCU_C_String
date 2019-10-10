@@ -15,6 +15,6 @@ int main(void) {
 //    puts("asdasd");
 //    printf("%s", my_str_get_cstr(&x));
     puts(my_str_get_cstr(&x));
-    printf("%d", my_str_size(&x));
+    printf("%zu", my_str_size(&x));
     my_str_free(&x);
 }
