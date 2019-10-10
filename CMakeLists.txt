@@ -11,7 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ../bin/lib)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 #set(CMAKE_C_EXTENSIONS FALSE) # ???
 #file(GLOB SOURCES src/*.c include/*.h)
@@ -33,6 +33,6 @@ endif()
 add_library(${LIB_NAME} SHARED libb/src/library.c libb/include/library.h)
 #target_link_directories(${LIB_NAME} PUBLIC include)
 
-add_executable(test tests/tests.c tests/test.h)
+#add_executable(test tests/tests.c tests/test.h)
 add_executable(${EXEC_NAME} main.c)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
