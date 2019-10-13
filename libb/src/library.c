@@ -1,7 +1,8 @@
-#include "library.h"
+#include "../include/library.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 int my_str_create(my_str_t *str, size_t buf_size) {
     // constructor of my_str_t object
@@ -107,23 +108,39 @@ int my_str_popback(my_str_t *str) {
     return str->data[str->size_m];
 }
 
-int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {}
+int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
+    return 1;
+}
 
 void my_str_clear(my_str_t *str) {}
 
-int my_str_insert_c(my_str_t *str, char c, size_t pos) {}
+int my_str_insert_c(my_str_t *str, char c, size_t pos) {
+    return 1;
+}
 
-int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {}
+int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {
+    return 1;
+}
 
-int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {}
+int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {
+    return 1;
+}
 
-int my_str_append(my_str_t *str, const my_str_t *from) {}
+int my_str_append(my_str_t *str, const my_str_t *from) {
+    return 1;
+}
 
-int my_str_append_cstr(my_str_t *str, const char *from) {}
+int my_str_append_cstr(my_str_t *str, const char *from) {
+    return 1;
+}
 
-int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {}
+int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
+    return 1;
+}
 
-int my_str_substr_cstr(const my_str_t *from, char *to, size_t beg, size_t end) {}
+int my_str_substr_cstr(const my_str_t *from, char *to, size_t beg, size_t end) {
+    return 1;
+}
 
 int my_str_reserve(my_str_t *str, size_t buf_size) {
     // increase buff size of my_str if new_size is bigger then previous one
@@ -163,9 +180,39 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
     return 0;
 }
 
-int my_str_shrink_to_fit(my_str_t *str) {}
+// not tested
+int my_str_shrink_to_fit(my_str_t *str) {
+    if (str == NULL) return -1;
 
-size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {}
+    if (str->size_m + 1 != str-> capacity_m) {
+        if (my_str_realloc(str, str->size_m) == -1)
+            return -2;
+    }
+    return 0;
+}
+
+
+// TODO: test my_str_find AND possibly delete input checks
+size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
+    if (NULL == str || tofind == NULL || str->size_m < tofind->size_m || from >= str->size_m || from < 0 ||
+        tofind->size_m == 0)
+        return (size_t) (-2);
+//    if (tofind->size_m == 0)
+//        return (size_t)(-1);
+
+    size_t i = from, match = 0;
+    while (i < str->size_m && match < tofind->size_m) {
+        if (str->data[i] == tofind->data[match])
+            match++;
+        else
+            match = 0;
+        i++;
+    }
+    if (match == tofind->size_m)
+        return i - match;
+    else
+        return (size_t)(-1);
+}
 
 int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
     size_t i = 0;
@@ -183,18 +230,98 @@ int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
     return 0;
 }
 
-int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {}
+// TODO: test my_str_cmp_cstr
+int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
+    size_t str2_len = char_arr_len(cstr2);
+    if (str1->size_m > str2_len)
+        return 1;
+    else if (str1->size_m < str2_len)
+        return -1;
+    else {
+        for (int j = 0; j < str1->size_m; ++j) {
+            if (str1->data[j] != cstr2[j])
+                return -1;
+        }
+        return 0;
+    }
+}
 
-size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {}
+// TODO: test my_str_find_c
+size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
+    if (from > str->size_m)
+        return -1;
+    if (from < 0)
+        from = 0;
+//        exit(1);
 
-size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {}
+    for (size_t j = from; j < str->size_m; ++j) {
+        if(str->data[j] == tofind)
+            return j;
+    }
+    return (size_t)(-1);
+}
 
-int my_str_read_file(my_str_t *str, FILE *file) {}
+// TODO: test my_str_find_if
+size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
+    for (int j = 0; j < str->size_m; ++j) {
+        if(predicat(str->data[j]))
+            return j;
+    }
+    return (size_t)(-1);
+}
 
-int my_str_read(my_str_t *str) {}
+int my_str_read_file(my_str_t *str, FILE *file) {
+    return 1;
+}
 
-int my_str_write_file(const my_str_t *str, FILE *file) {}
+int my_str_read(my_str_t *str) {
+    return 1;
+}
 
-int my_str_write(const my_str_t *str, FILE *file) {}
+int my_str_write_file(const my_str_t *str, FILE *file) {
+    return 1;
+}
 
-int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {}
+int my_str_write(const my_str_t *str, FILE *file) {
+    return 1;
+}
+
+int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
+    return 1;
+}
+
+
+/*********************************************************************/
+// TODO: TEST this helper function (used in "my_str_shrink_to_fit")
+// TODO: REWRITE with memcpy or memmove
+int my_str_realloc(my_str_t *str, size_t buffer) {
+    char *data_p = (char*)malloc(buffer + 1);
+
+    if (data_p == NULL) return -1;
+
+    if (str->size_m > buffer)
+        str->size_m = buffer;
+
+    char_arr_copy(str->data, str->size_m, data_p);
+    data_p[buffer] = '\0';
+    free(str->data);
+    str->data = data_p;
+    str->capacity_m = buffer + 1;
+    return 0;
+}
+
+// TODO: DELETE after use of "memcpy" or "memmove"
+void char_arr_copy(const char *arr, size_t to_index, char *arr_copy) {
+    for (size_t j = 0; j < to_index; ++j) {
+        arr_copy[j] = arr[j];
+    }
+}
+
+size_t char_arr_len(const char *s) {
+    size_t i = 0;
+    while (*(s + i) != '\0') {
+        i++;
+    }
+    return i;
+}
+/**********************************************************************/

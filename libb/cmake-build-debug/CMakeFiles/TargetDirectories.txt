@@ -1,3 +1,0 @@
-/home/myralllka/Documents/PoCO/lab2/libb/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/myralllka/Documents/PoCO/lab2/libb/cmake-build-debug/CMakeFiles/prog.dir
-/home/myralllka/Documents/PoCO/lab2/libb/cmake-build-debug/CMakeFiles/edit_cache.dir
