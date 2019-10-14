@@ -33,6 +33,6 @@ endif()
 add_library(${LIB_NAME} SHARED libb/src/library.c libb/include/library.h)
 #target_link_directories(${LIB_NAME} PUBLIC include)
 
-#add_executable(test tests/tests.c tests/test.h)
-add_executable(${EXEC_NAME} main.c)
+#add_executable()
+add_executable(${EXEC_NAME} main.c tests/tests.c tests/test.h)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
