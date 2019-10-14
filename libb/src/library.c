@@ -325,15 +325,27 @@ size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
 }
 
 int my_str_read_file(my_str_t *str, FILE *file) {
-    return 1;
+    int current_c;
+    str->size_m = 0;
+    while ((current_c = fgetc(file)) != EOF) {
+        if (my_str_pushback(str, (char) current_c) != 0)
+            return -1;
+    }
+    return 0;
 }
 
 int my_str_read(my_str_t *str) {
-    return 1;
+    return my_str_read_file(str, stdin);
 }
 
 int my_str_write_file(const my_str_t *str, FILE *file) {
-    return 1;
+    my_str_t printed_str;
+    if (my_str_create(&printed_str, 0) != 0)
+        return -1;
+    if (my_str_copy(str, &printed_str, 1) != 0)
+        return -2;
+    fprintf(file, "%s", my_str_get_cstr(&printed_str));
+    return 0;
 }
 
 int my_str_write(const my_str_t *str, FILE *file) {
