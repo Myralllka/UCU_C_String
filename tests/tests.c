@@ -1,5 +1,6 @@
 #include "../main.c"
 #include "test.h"
+#include "../libb/src/library.c"
 
 int tests(void) {
     my_str_t mst;
