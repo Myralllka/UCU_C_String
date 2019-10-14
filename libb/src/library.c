@@ -368,7 +368,7 @@ int my_str_realloc(my_str_t *str, size_t buffer) {
     if (str->size_m > buffer)
         str->size_m = buffer;
 
-    char_arr_copy(str->data, str->size_m, data_p);
+    memmove(data_p, str->data, str->size_m);
     data_p[buffer] = '\0';
     free(str->data);
     str->data = data_p;
@@ -377,12 +377,6 @@ int my_str_realloc(my_str_t *str, size_t buffer) {
 }
 
 // TODO: DELETE after use of "memcpy" or "memmove"
-void char_arr_copy(const char *arr, size_t to_index, char *arr_copy) {
-    for (size_t j = 0; j < to_index; ++j) {
-        arr_copy[j] = arr[j];
-    }
-}
-
 size_t char_arr_len(const char *s) {
     size_t i = 0;
     while (*(s + i) != '\0') {
@@ -390,4 +384,3 @@ size_t char_arr_len(const char *s) {
     }
     return i;
 }
-/**********************************************************************/
