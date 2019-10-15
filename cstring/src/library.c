@@ -93,6 +93,10 @@ const char *my_str_get_cstr(my_str_t *str) {
 }
 
 int my_str_pushback(my_str_t *str, char c) {
+    //Add a symbol (character) in the end of the my_str
+    //return 0 if there no mistakes
+    //return -1 if zero pointer
+    //return -2 if it is impossible to reserve new memory
     if (str == NULL)
         return -1;
     if (my_str_reserve(str, str->size_m + 1) == -1)
@@ -103,6 +107,10 @@ int my_str_pushback(my_str_t *str, char c) {
 }
 
 int my_str_popback(my_str_t *str) {
+    //Delete symbol from the end
+    //return the symbol if there were no mistakes
+    //return -1 if zero pointer
+    //return -2 if my_str is empty
     if (str == NULL)
         return -1;
     if (str->size_m == 0) {
@@ -113,6 +121,10 @@ int my_str_popback(my_str_t *str) {
 }
 
 int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
+    //Copy the string
+    //If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
+    //return 0 if there is no mistakes
+    //return -1 if there no memory left
     int new_buffer;
     if (reserve)
         new_buffer = from->capacity_m;
@@ -127,6 +139,7 @@ int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
 }
 
 void my_str_clear(my_str_t *str) {
+    // clear the string data
     str->size_m = 0;
 }
 

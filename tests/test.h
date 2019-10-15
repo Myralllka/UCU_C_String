@@ -25,8 +25,6 @@ int test_my_str_popback();
 
 int test_my_str_copy();
 
-int test_my_str_clear();
-
 int test_my_str_insert_c();
 
 int test_my_str_insert();

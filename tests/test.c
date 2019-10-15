@@ -116,12 +116,23 @@ int test_my_str_putc() {
 }
 
 int test_my_str_get_cstr() {
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+
+    //TODO: complete test! I don`t know how to test this!
 
     return 0;
 }
 
 int test_my_str_pushback() {
-    
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_pushback(&str, ' ');
+    my_str_pushback(&str, 'n');
+    my_str_pushback(&str, 'o');
+    if (str.data[str.size_m]-1 != '0') return -1;
     return 0;
 }
 
@@ -130,10 +141,6 @@ int test_my_str_popback() {
 }
 
 int test_my_str_copy() {
-    return -1;
-}
-
-int test_my_str_clear() {
     return -1;
 }
 
