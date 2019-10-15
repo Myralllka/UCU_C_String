@@ -1,4 +1,3 @@
-//#include <hdf5_hl.h>
 #include "test.h"
 #include "../libb/include/library.h"
 
@@ -9,13 +8,6 @@ int tests(void) {
     if (test_my_str_from_cstr()) return 3;
     if (test_my_str_capacity()) return 4;
     return 0;
-}
-
-int test_my_str_free() {
-    my_str_t mst;
-    my_str_create(&mst, 7);
-    my_str_free(&mst);
-    return (mst.data != NULL) ? 1 : 0;
 }
 
 int test_my_str_size() {
