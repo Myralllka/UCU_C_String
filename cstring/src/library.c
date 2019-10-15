@@ -7,10 +7,11 @@
 int my_str_create(my_str_t *str, size_t buf_size) {
     // constructor of my_str_t object
     //return -1 if null pointer given, 0 otherwise
+    if (str == NULL) return -1;
     str->capacity_m = buf_size + 1;
     str->size_m = 0;
     str->data = (char *) calloc(str->capacity_m, sizeof(char));
-    for (int i = 0; i < str->capacity_m; i++){
+    for (size_t i = 0; i < str->capacity_m; i++) {
         str->data[i] = 0;
     }
     if (str->data == NULL) {
