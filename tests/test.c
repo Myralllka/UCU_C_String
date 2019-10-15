@@ -1,7 +1,7 @@
-//#include "../main.c"
-#include <hdf5_hl.h>
+//#include <hdf5_hl.h>
 #include "test.h"
-#include "../libb/src/library.c"
+#include "../libb/include/library.h"
+
 
 int tests(void) {
     if (!test_my_str_free()) return 1;
