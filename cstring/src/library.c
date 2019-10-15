@@ -81,7 +81,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
     // return -1 if index is incorrect, otherwise 0
     // and put char c on the index place
     if (str == NULL) return -1;
-    if ((index > str->size_m - 1) || (index < 0)) return -1;
+    if ((index >= str->size_m) || (index < 0)) return -1;
     str->data[index] = c;
     return 0;
 }
