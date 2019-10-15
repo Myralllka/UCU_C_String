@@ -12,12 +12,11 @@ int tests(void) {
     if (test_my_str_putc()) printf("fail test 7\n");
     if (test_my_str_get_cstr()) printf("fail test 8\n");
     if (test_my_str_pushback()) printf("fail test 9\n");
-//    if (test_my_str_popback()) printf("fail test 10\n");
-//    if (test_my_str_copy()) printf("fail test 11\n");
-//    if (test_my_str_clear()) printf("fail test 12\n");
-//    if (test_my_str_insert_c()) printf("fail test 13\n");
-//    if (test_my_str_insert()) printf("fail test 14\n");
-//    if (test_my_str_insert_cstr()) printf("fail test 15\n");
+    if (test_my_str_popback()) printf("fail test 10\n");
+    if (test_my_str_copy()) printf("fail test 11\n");
+    if (test_my_str_insert_c()) printf("fail test 13\n");
+    if (test_my_str_insert()) printf("fail test 14\n");
+    if (test_my_str_insert_cstr()) printf("fail test 15\n");
 //    if (test_my_str_append()) printf("fail test 16\n");
 //    if (test_my_str_append_cstr()) printf("fail test 17\n");
 //    if (test_my_str_substr()) printf("fail test 18\n");
@@ -87,6 +86,8 @@ int test_my_str_empty() {
     my_str_from_cstr(&str, "hello", 0);
     if (!my_str_empty(&empty_str)) return -1;
     if (my_str_empty(&str)) return -1;
+    my_str_free(&str);
+    my_str_free(&empty_str);
     return 0;
 }
 
@@ -99,6 +100,7 @@ int test_my_str_getc() {
     if (my_str_getc(&str, 10) != 'd') return 1;
     if (!my_str_getc(&str, -45)) return 1;
     if (!my_str_getc(&str, 12)) return 1;
+    my_str_free(&str);
     return 0;
 }
 
@@ -110,8 +112,9 @@ int test_my_str_putc() {
     my_str_putc(&str, str.size_m - 1, 'a');
     if (str.data[0] != 'p') return 1;
     if (str.data[str.size_m - 1] != 'a') return 1;
-    if (!my_str_putc(&str,-1, 'a')) return 1;
+    if (!my_str_putc(&str, -1, 'a')) return 1;
     if (!my_str_putc(&str, str.size_m, 'a')) return 1;
+    my_str_free(&str);
     return 0;
 }
 
@@ -132,19 +135,38 @@ int test_my_str_pushback() {
     my_str_pushback(&str, ' ');
     my_str_pushback(&str, 'n');
     my_str_pushback(&str, 'o');
-    if (str.data[str.size_m]-1 != '0') return -1;
+    if (str.data[str.size_m - 1] != 'o') return -1;
+    my_str_free(&str);
     return 0;
 }
 
 int test_my_str_popback() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 1);
+    if (!my_str_popback(&str)) return -1;
+    my_str_from_cstr(&str, "hello world", 0);
+    int c = my_str_popback(&str);
+    if (str.data[str.size_m - 1] != 'l') return -1;
+    if (c != 'd') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_copy() {
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello world", 0);
+    my_str_copy(&str1, &str2, 1);
+    if (str2.data[str2.size_m -1 ] != 'd') return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
+    return 0;
 }
 
 int test_my_str_insert_c() {
+
     return -1;
 }
 

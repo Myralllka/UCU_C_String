@@ -144,6 +144,9 @@ void my_str_clear(my_str_t *str) {
 }
 
 int my_str_insert_c(my_str_t *str, char c, size_t pos) {
+    //
+    //
+    //
     if (str == NULL)
         return -1;
     if (pos > str->size_m)
