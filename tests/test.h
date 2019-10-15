@@ -1,7 +1,7 @@
 #ifndef LAB2_TEST_H
 #define LAB2_TEST_H
 
-#include "../libb/include/library.h"
+int tests(void);
 
 int test_my_str_size(void);
 
