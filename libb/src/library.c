@@ -19,6 +19,7 @@ int my_str_create(my_str_t *str, size_t buf_size) {
 void my_str_free(my_str_t *str) {
     // delete memory of my_str_t
     free(str->data);
+    str->data = NULL;
 }
 
 int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
@@ -36,13 +37,12 @@ int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
     } else if (buf_size < real_cstring_size) {
         return -1;
     }
-    int checker = my_str_reserve(str, real_cstring_size * 2 + 1);
+    int checker = my_str_reserve(str, buf_size);
     if (checker) {
         return -2;
     }
     memcpy(str->data, cstr, real_cstring_size);
     str->size_m = real_cstring_size;
-    str->capacity_m = real_cstring_size * 2 + 1;
     return 0;
 }
 
@@ -325,13 +325,7 @@ size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
 }
 
 int my_str_read_file(my_str_t *str, FILE *file) {
-    int current_c;
-    str->size_m = 0;
-    while ((current_c = fgetc(file)) != EOF) {
-        if (my_str_pushback(str, (char) current_c) != 0)
-            return -1;
-    }
-    return 0;
+    return my_str_read_file_delim(str, file, EOF);
 }
 
 int my_str_read(my_str_t *str) {
@@ -348,12 +342,18 @@ int my_str_write_file(const my_str_t *str, FILE *file) {
     return 0;
 }
 
-int my_str_write(const my_str_t *str, FILE *file) {
-    return 1;
+int my_str_write(const my_str_t *str) {
+    return my_str_write_file(str, stdout);
 }
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
-    return 1;
+    int current_c;
+    str->size_m = 0;
+    while ((current_c = fgetc(file)) != delimiter) {
+        if (my_str_pushback(str, (char) current_c) != 0)
+            return -1;
+    }
+    return 0;
 }
 
 
