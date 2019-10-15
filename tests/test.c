@@ -9,11 +9,11 @@ int tests(void) {
     printf("complete test 2");
     if (test_my_str_capacity()) return 3;
     printf("complete test 3");
-//    return 0;
+    return 0;
 }
 
 int test_my_str_create() {
-
+    return 0;
 }
 
 int test_my_str_size() {
@@ -26,9 +26,9 @@ int test_my_str_size() {
 
 int test_my_str_from_cstr() {
     my_str_t str;
+    my_str_create(&str, 0);
     char *ccc = "hello my dear";
     my_str_from_cstr(&str, ccc, 0);
-//    if (&str == NULL) return 1;
     for (int i = 0; i < str.size_m; i++) {
         if (str.data[i] != ccc[i]) return 1;
     }
@@ -38,10 +38,13 @@ int test_my_str_from_cstr() {
     return 0;
 }
 
-int test_my_str_capacity () {
+int test_my_str_capacity() {
     my_str_t str;
+    my_str_create(&str, 0);
     char *ccc = "hello";
     my_str_from_cstr(&str, ccc, 0);
-//    if (&str == NULL) return 1;
     if (str.capacity_m != 11) return 1;
+    if (str.data == NULL) return 1;
+    my_str_free(&str);
+    return 0;
 }
