@@ -2,7 +2,8 @@
 // Created by kumquat on 10/15/19.
 //
 
-#include "Cstring.h"
+#include "CString.h"
+
 
 
 CString::CString(size_t buf_size) {
