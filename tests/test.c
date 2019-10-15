@@ -1,5 +1,5 @@
 #include "test.h"
-#include "../libb/include/library.h"
+#include "../cstring/include/library.h"
 
 
 int tests(void) {
@@ -57,7 +57,7 @@ int test_my_str_empty() {
         my_str_t str;
         my_str_create(&str, 1);
         my_str_from_cstr(&str, "hello", 0);
-        
+
     return 0;
 }
 
