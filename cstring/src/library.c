@@ -18,7 +18,7 @@ int my_str_create(my_str_t *str, size_t buf_size) {
         return -1;
     }
     return 0;
-};
+}
 
 void my_str_free(my_str_t *str) {
     // delete memory of my_str_t
@@ -144,9 +144,9 @@ void my_str_clear(my_str_t *str) {
 }
 
 int my_str_insert_c(my_str_t *str, char c, size_t pos) {
-    //
-    //
-    //
+    // insert char on the needed position
+    // moving else symbols right
+    // return zero if everything is ok, negative values otherwise
     if (str == NULL)
         return -1;
     if (pos > str->size_m)
@@ -160,10 +160,12 @@ int my_str_insert_c(my_str_t *str, char c, size_t pos) {
 }
 
 int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {
-    if (str == NULL || from == NULL)
-        return -1;
-    if (pos > str->size_m)
-        return -2;
+    // insert string in needed position
+    // make buffer bigger if necessary
+    // return 0 if there is no mistakes, negative numbers otherwise
+    if (str == NULL) return -1;
+    if (from == NULL) return -1;
+    if (pos > str->size_m) return -2;
     if (my_str_reserve(str, str->size_m + from->size_m) != 0)
         return -3;
     memmove(str->data + pos + from->size_m, str->data + pos, str->size_m - pos);
@@ -173,6 +175,9 @@ int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {
 }
 
 int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {
+    // insert cstring in needed position
+    // make buffer bigger if necessary
+    // return 0 if there is no mistakes, negative numbers
     my_str_t temp;
     my_str_create(&temp, 0);
     my_str_from_cstr(&temp, from, 0);
@@ -182,14 +187,21 @@ int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {
 }
 
 int my_str_append(my_str_t *str, const my_str_t *from) {
+    // add string in the end of given string
+    // return 0 if there is no mistakes, negative numbers otherwise
     return my_str_insert(str, from, str->size_m);
 }
 
 int my_str_append_cstr(my_str_t *str, const char *from) {
+    // add string in the end of given string
+    // return 0 if there is no mistakes, negative numbers otherwise
     return my_str_insert_cstr(str, from, str->size_m);
 }
 
 static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
+    // helper function for my_str_substr
+    // check borders (the first and the last indexes)
+    // return TODO: WHAT does it return and when?)
     if (!(beg >= 0 && beg < str->size_m) || *end < beg)
         return 0;
     if (*end > str->size_m)
@@ -198,6 +210,11 @@ static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
 }
 
 int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
+    // copy the substring from beg to end including end.
+    // beg can be in the middle of string, but not outside.
+    // end can be outside - then function will copy everything to the end of the string.
+    // increase buffer if needed.
+    // return 0 if there is no mistakes, negative numbers otherwise.
     if (!check_borders(from, beg, &end))
         return -1;
     if (my_str_reserve(to, end - beg) != 0)

@@ -1,6 +1,6 @@
 #include "test.h"
 #include "../cstring/include/library.h"
-
+#include <ctype.h>
 
 int tests(void) {
     if (test_my_str_create()) printf("fail test 1\n");
@@ -17,11 +17,11 @@ int tests(void) {
     if (test_my_str_insert_c()) printf("fail test 13\n");
     if (test_my_str_insert()) printf("fail test 14\n");
     if (test_my_str_insert_cstr()) printf("fail test 15\n");
-//    if (test_my_str_append()) printf("fail test 16\n");
-//    if (test_my_str_append_cstr()) printf("fail test 17\n");
-//    if (test_my_str_substr()) printf("fail test 18\n");
-//    if (test_my_str_substr_cstr()) printf("fail test 19\n");
-//    if (test_my_str_reserve()) printf("fail test 20\n");
+    if (test_my_str_append()) printf("fail test 16\n");
+    if (test_my_str_append_cstr()) printf("fail test 17\n");
+    if (test_my_str_substr()) printf("fail test 18\n");
+    if (test_my_str_substr_cstr()) printf("fail test 19\n");
+    if (test_my_str_reserve()) printf("fail test 20\n");
 //    if (test_my_str_shrink_to_fit()) printf("fail test 21\n");
 //    if (test_my_str_resize()) printf("fail test 22\n");
 //    if (test_my_str_cmp()) printf("fail test 23\n");
@@ -166,20 +166,49 @@ int test_my_str_copy() {
 }
 
 int test_my_str_insert_c() {
-
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_insert_c(&str, 'A', 0);
+    if (str.data[0] != 'A') return -1;
+    my_str_insert_c(&str, 'A', str.size_m);
+    if (str.data[str.size_m - 1] != 'A') return -1;
+    my_str_insert_c(&str, 'A', 4);
+    if (str.data[4] != 'A') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_insert() {
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_insert(&str1, &str2, str1.size_m);
+    if (str2.data[str2.size_m - 1] != 'd') return -1;
+    my_str_insert(&str1, &str2, 0);
+    if (!isspace(str2.data[0])) return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
+    return 0;
 }
 
 int test_my_str_insert_cstr() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_insert_cstr(&str, c, str.size_m);
+    if (str.data[str.size_m - 1] != 'd') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_append() {
-    return -1;
+
+    return 0;
 }
 
 int test_my_str_append_cstr() {
