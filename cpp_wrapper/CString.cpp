@@ -10,6 +10,10 @@ CString::CString(size_t buf_size) {
     my_str_create(&str, buf_size);
 }
 
+void CString::clear() {
+    my_str_clear(&str);
+}
+
 CString::~CString() {
     my_str_free(&str);
 }
@@ -46,32 +50,33 @@ int CString::popback() {
     return my_str_popback(&str);
 }
 
-int CString::copy(my_str_t *to, int reserve) {
-    return my_str_copy(&str, to, reserve);
+int CString::copy(CString *to, int reserve) {
+    CString new_str(0);
+    return my_str_copy(&str, &((*to).str), reserve);
 }
 
 int CString::insert_c(char c, size_t pos) {
     return my_str_insert_c(&str, c, pos);
 }
 
-int CString::insert(const my_str_t *from, size_t pos) {
-    return my_str_insert(&str, from, pos);
+int CString::insert(CString *from, size_t pos) {
+    return my_str_insert(&str, &(*from).str, pos);
 }
 
 int CString::insert_cstr(const char *from, size_t pos) {
     return my_str_insert_cstr(&str, from, pos);
 }
 
-int CString::append(const my_str_t *from) {
-    return my_str_append(&str, from);
+int CString::append(CString *from) {
+    return my_str_append(&str, &(*from).str);
 }
 
 int CString::append_cstr(const char *from) {
     return my_str_append_cstr(&str, from);
 }
 
-int CString::substr(my_str_t *to, size_t beg, size_t end) {
-    return my_str_substr(&str, to, beg, end);
+int CString::substr(CString *to, size_t beg, size_t end) {
+    return my_str_substr(&str, &(*to).str, beg, end);
 }
 
 int CString::substr_cstr(char *to, size_t beg, size_t end) {
@@ -90,12 +95,12 @@ int CString::shrink_to_fit() {
     return my_str_shrink_to_fit(&str);
 }
 
-size_t CString::find(const my_str_t *tofind, size_t from) {
-    return my_str_find(&str, tofind, from);
+size_t CString::find(CString *tofind, size_t from) {
+    return my_str_find(&str, &(*tofind).str, from);
 }
 
-int CString::cmp(const my_str_t *str2) {
-    return my_str_cmp(&str, str2);
+int CString::cmp(CString *str2) {
+    return my_str_cmp(&str, &(*str2).str);
 }
 
 int CString::cmp_cstr(const char *cstr2) {
