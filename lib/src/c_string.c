@@ -1,4 +1,4 @@
-#include "../include/library.h"
+#include "../include/c_string.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,11 +7,15 @@
 int my_str_create(my_str_t *str, size_t buf_size) {
     // constructor of my_str_t object
     //return -1 if null pointer given, 0 otherwise
+    if (str == NULL) return -1;
     str->capacity_m = buf_size + 1;
     str->size_m = 0;
     str->data = (char *) calloc(str->capacity_m, sizeof(char));
     if (str->data == NULL) {
         return -1;
+    }
+    for (size_t i = 0; i < str->capacity_m; i++) {
+        str->data[i] = 0;
     }
     return 0;
 };
@@ -19,10 +23,11 @@ int my_str_create(my_str_t *str, size_t buf_size) {
 void my_str_free(my_str_t *str) {
     // delete memory of my_str_t
     free(str->data);
+    str->data = NULL;
 }
 
 int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
-    // make my_str from cstring.
+    // make my_str from lib.
     // if buf_size == 0 then buf_size will be equal to real size
     // return -1 if buf size is less then real size then it is a mistake
     // return -2 if it is impossible to give enough memory
@@ -36,13 +41,12 @@ int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
     } else if (buf_size < real_cstring_size) {
         return -1;
     }
-    int checker = my_str_reserve(str, real_cstring_size * 2 + 1);
+    int checker = my_str_reserve(str, buf_size);
     if (checker) {
         return -2;
     }
     memcpy(str->data, cstr, real_cstring_size);
     str->size_m = real_cstring_size;
-    str->capacity_m = real_cstring_size * 2 + 1;
     return 0;
 }
 
@@ -77,7 +81,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
     // return -1 if index is incorrect, otherwise 0
     // and put char c on the index place
     if (str == NULL) return -1;
-    if ((index > str->size_m - 1) || (index < 0)) return -1;
+    if ((index >= str->size_m) || (index < 0)) return -1;
     str->data[index] = c;
     return 0;
 }
@@ -89,6 +93,10 @@ const char *my_str_get_cstr(my_str_t *str) {
 }
 
 int my_str_pushback(my_str_t *str, char c) {
+    //Add a symbol (character) in the end of the my_str
+    //return 0 if there no mistakes
+    //return -1 if zero pointer
+    //return -2 if it is impossible to reserve new memory
     if (str == NULL)
         return -1;
     if (my_str_reserve(str, str->size_m + 1) == -1)
@@ -99,6 +107,10 @@ int my_str_pushback(my_str_t *str, char c) {
 }
 
 int my_str_popback(my_str_t *str) {
+    //Delete symbol from the end
+    //return the symbol if there were no mistakes
+    //return -1 if zero pointer
+    //return -2 if my_str is empty
     if (str == NULL)
         return -1;
     if (str->size_m == 0) {
@@ -109,6 +121,10 @@ int my_str_popback(my_str_t *str) {
 }
 
 int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
+    //Copy the string
+    //If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
+    //return 0 if there is no mistakes
+    //return -1 if there no memory left
     int new_buffer;
     if (reserve)
         new_buffer = from->capacity_m;
@@ -123,10 +139,14 @@ int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
 }
 
 void my_str_clear(my_str_t *str) {
+    // clear the string data
     str->size_m = 0;
 }
 
 int my_str_insert_c(my_str_t *str, char c, size_t pos) {
+    //
+    //
+    //
     if (str == NULL)
         return -1;
     if (pos > str->size_m)
@@ -204,16 +224,16 @@ int my_str_reserve(my_str_t *str, size_t buf_size) {
     if (str == NULL) {
         return -1;
     }
-    if (str->capacity_m >= buf_size) {
+    if (buf_size <= (*str).capacity_m)
         return 0;
-    }
-    char *new_str = (char *) calloc(buf_size, sizeof(char));
-    if (new_str == NULL) {
-        return -2;
-    }
-    memmove(new_str, str->data, str->size_m);
+    if ((*str).capacity_m * 2 > buf_size)
+        buf_size = (*str).capacity_m * 2;
+    char *new_begin = malloc(buf_size + 1);
+    if (new_begin == NULL)
+        return -1;
+    memcpy(new_begin, str->data, str->size_m);
     my_str_free(str);
-    str->data = new_str;
+    str->data = new_begin;
     str->capacity_m = buf_size;
     return 0;
 }
@@ -325,23 +345,35 @@ size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
 }
 
 int my_str_read_file(my_str_t *str, FILE *file) {
-    return 1;
+    return my_str_read_file_delim(str, file, EOF);
 }
 
 int my_str_read(my_str_t *str) {
-    return 1;
+    return my_str_read_file(str, stdin);
 }
 
 int my_str_write_file(const my_str_t *str, FILE *file) {
-    return 1;
+    my_str_t printed_str;
+    if (my_str_create(&printed_str, 0) != 0)
+        return -1;
+    if (my_str_copy(str, &printed_str, 1) != 0)
+        return -2;
+    fprintf(file, "%s", my_str_get_cstr(&printed_str));
+    return 0;
 }
 
-int my_str_write(const my_str_t *str, FILE *file) {
-    return 1;
+int my_str_write(const my_str_t *str) {
+    return my_str_write_file(str, stdout);
 }
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
-    return 1;
+    int current_c;
+    str->size_m = 0;
+    while ((current_c = fgetc(file)) != delimiter) {
+        if (my_str_pushback(str, (char) current_c) != 0)
+            return -1;
+    }
+    return 0;
 }
 
 
@@ -364,7 +396,6 @@ int my_str_realloc(my_str_t *str, size_t buffer) {
     return 0;
 }
 
-// TODO: DELETE after use of "memcpy" or "memmove"
 size_t char_arr_len(const char *s) {
     size_t i = 0;
     while (*(s + i) != '\0') {
