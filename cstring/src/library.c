@@ -88,7 +88,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
 
 const char *my_str_get_cstr(my_str_t *str) {
     //return pointer on the C_string
-    str->data[str->size_m + 1] = '\0';
+    str->data[str->size_m] = '\0';
     return str->data;
 }
 

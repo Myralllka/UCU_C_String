@@ -207,15 +207,40 @@ int test_my_str_insert_cstr() {
 }
 
 int test_my_str_append() {
-
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_append(&str1, &str2);
+    if (str2.data[str2.size_m - 1] != 'd') return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
     return 0;
 }
 
 int test_my_str_append_cstr() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_append_cstr(&str, c);
+    if (str.data[str.size_m - 1] != 'd') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_substr() {
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 0);
+    my_str_create(&str2, 0);
+    my_str_from_cstr(&str1, "hello world", 0);
+    my_str_substr(&str1, &str2, 1, 4);
+    puts(my_str_get_cstr(&str2));
+    my_str_free(&str1);
+    my_str_free(&str2);
     return -1;
 }
 
