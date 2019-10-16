@@ -1,4 +1,4 @@
-#include "../include/library.h"
+#include "../include/c_string.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,11 +11,11 @@ int my_str_create(my_str_t *str, size_t buf_size) {
     str->capacity_m = buf_size + 1;
     str->size_m = 0;
     str->data = (char *) calloc(str->capacity_m, sizeof(char));
-    for (size_t i = 0; i < str->capacity_m; i++) {
-        str->data[i] = 0;
-    }
     if (str->data == NULL) {
         return -1;
+    }
+    for (size_t i = 0; i < str->capacity_m; i++) {
+        str->data[i] = 0;
     }
     return 0;
 };
@@ -27,7 +27,7 @@ void my_str_free(my_str_t *str) {
 }
 
 int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
-    // make my_str from cstring.
+    // make my_str from lib.
     // if buf_size == 0 then buf_size will be equal to real size
     // return -1 if buf size is less then real size then it is a mistake
     // return -2 if it is impossible to give enough memory
@@ -396,7 +396,6 @@ int my_str_realloc(my_str_t *str, size_t buffer) {
     return 0;
 }
 
-// TODO: DELETE after use of "memcpy" or "memmove"
 size_t char_arr_len(const char *s) {
     size_t i = 0;
     while (*(s + i) != '\0') {

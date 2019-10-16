@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 #ifndef CSTRING_LIBRARY_H
 #define CSTRING_LIBRARY_H
 
