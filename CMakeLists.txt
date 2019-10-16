@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(lab2 C)
 
-SET(LIB_NAME cstring)
+SET(LIB_NAME c_string)
 SET(EXEC_NAME main)
 
 set(CMAKE_C_STANDARD 11)
@@ -30,7 +30,7 @@ endif()
 
 
 #add_library(${LIB_NAME} STATIC src/my_str.c)
-add_library(${LIB_NAME} SHARED cstring/src/library.c cstring/include/library.h)
+add_library(${LIB_NAME} SHARED lib/src/c_string.c lib/include/c_string.h)
 #target_link_directories(${LIB_NAME} PUBLIC include)
 
 #add_executable(test tests/test.c tests/test.h)

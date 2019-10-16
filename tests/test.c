@@ -1,5 +1,5 @@
 #include "test.h"
-#include "../cstring/include/library.h"
+#include "../lib/include/c_string.h"
 
 
 int tests(void) {
@@ -119,12 +119,16 @@ int test_my_str_putc() {
 }
 
 int test_my_str_get_cstr() {
+    char* sample = "hello world";
     my_str_t str;
     my_str_create(&str, 1);
-    my_str_from_cstr(&str, "hello world", 0);
+    my_str_from_cstr(&str, sample, 0);
+    const char* res =  my_str_get_cstr(&str);
 
-    //TODO: complete test! I don`t know how to test this!
+    if (char_arr_len(res) != char_arr_len(sample)) return -1;
 
+    for (size_t i = 0; i < char_arr_len(res); ++i)
+        if (res[i] != sample[i]) return -1;
     return 0;
 }
 
@@ -159,7 +163,7 @@ int test_my_str_copy() {
     my_str_create(&str2, 1);
     my_str_from_cstr(&str1, "hello world", 0);
     my_str_copy(&str1, &str2, 1);
-    if (str2.data[str2.size_m -1 ] != 'd') return -1;
+    if (str2.data[str2.size_m - 1] != 'd') return -1;
     my_str_free(&str1);
     my_str_free(&str2);
     return 0;
@@ -241,4 +245,3 @@ int test_my_str_write() {
 int test_my_str_read_file_delim() {
     return -1;
 }
-
