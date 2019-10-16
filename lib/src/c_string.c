@@ -224,16 +224,16 @@ int my_str_reserve(my_str_t *str, size_t buf_size) {
     if (str == NULL) {
         return -1;
     }
-    if (str->capacity_m >= buf_size) {
+    if (buf_size <= (*str).capacity_m)
         return 0;
-    }
-    char *new_str = (char *) calloc(buf_size, sizeof(char));
-    if (new_str == NULL) {
-        return -2;
-    }
-    memmove(new_str, str->data, str->size_m);
+    if ((*str).capacity_m * 2 > buf_size)
+        buf_size = (*str).capacity_m * 2;
+    char *new_begin = malloc(buf_size + 1);
+    if (new_begin == NULL)
+        return -1;
+    memcpy(new_begin, str->data, str->size_m);
     my_str_free(str);
-    str->data = new_str;
+    str->data = new_begin;
     str->capacity_m = buf_size;
     return 0;
 }
