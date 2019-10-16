@@ -9,7 +9,7 @@
 #include <cstdlib>
 
 extern "C" {
-#include "library.h"
+#include "../cstring/include/library.h"
 };
 
 class CString {
@@ -19,6 +19,8 @@ public:
     CString(size_t buf_size);
 
     ~CString();
+
+    void clear();
 
     int from_cstr(const char *cstr, size_t buf_size);
 
@@ -36,19 +38,19 @@ public:
 
     int popback();
 
-    int copy(my_str_t *to, int reserve);
+    int copy(CString *to, int reserve);
 
     int insert_c(char c, size_t pos);
 
-    int insert(const my_str_t *from, size_t pos);
+    int insert(CString *from, size_t pos);
 
     int insert_cstr(const char *from, size_t pos);
 
-    int append(const my_str_t *from);
+    int append(CString *from);
 
     int append_cstr(const char *from);
 
-    int substr(my_str_t *to, size_t beg, size_t end);
+    int substr(CString *to, size_t beg, size_t end);
 
     int substr_cstr(char *to, size_t beg, size_t end);
 
@@ -58,9 +60,9 @@ public:
 
     int shrink_to_fit();
 
-    size_t find(const my_str_t *tofind, size_t from);
+    size_t find(CString *tofind, size_t from);
 
-    int cmp(const my_str_t *str2);
+    int cmp(CString *str2);
 
     int cmp_cstr(const char *cstr2);
 
