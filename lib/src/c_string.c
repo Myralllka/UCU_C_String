@@ -225,9 +225,10 @@ int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
 }
 
 int my_str_substr_cstr(const my_str_t *from, char *to, size_t beg, size_t end) {
+    // C-string variant of my_str_substr
+    // we define that in the string there were enough space
     if (!check_borders(from, beg, &end))
         return -1;
-    printf("%i\n", sizeof(to));
     memmove(to, from->data + beg, end - beg);
     to[end - beg] = '\0';
     return 0;
@@ -256,6 +257,10 @@ int my_str_reserve(my_str_t *str, size_t buf_size) {
 }
 
 int my_str_resize(my_str_t *str, size_t new_size, char sym) {
+    // function to resize the string
+    // if new size is greater then current size
+    // resize it and set all new symbols as `sym`
+    // return 0 if everything is ok, negative numbers otherwise
     if (new_size < 0)
         return -1;
     if (new_size <= str->size_m) {
@@ -271,8 +276,9 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
     return 0;
 }
 
-// not tested
 int my_str_shrink_to_fit(my_str_t *str) {
+    // make buffer size equal to capacity.
+    // return 0 if everything is ok, negative numbers otherwise.
     if (str == NULL) return -1;
 
     if (str->size_m + 1 != str->capacity_m) {
@@ -284,13 +290,16 @@ int my_str_shrink_to_fit(my_str_t *str) {
 
 
 // TODO: test my_str_find AND possibly delete input checks
-size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
-    if (NULL == str || tofind == NULL || str->size_m < tofind->size_m || from >= str->size_m || from < 0 ||
-        tofind->size_m == 0)
-        return (size_t) (-2);
-//    if (tofind->size_m == 0)
-//        return (size_t)(-1);
 
+size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
+    // find first substring in string
+    // from - place from where we have to search
+    // if from os greater then size, we cant find it.
+    // return number of begin of substring if it is occur, (size_t)(-1) otherwise.
+    if (str == NULL) return 1;
+    if (str->size_m < tofind->size_m) return 1;
+    if (from >= str->size_m || from < 0) return 2;
+    if (tofind->size_m == 0) return (size_t)(-1);
     size_t i = from, match = 0;
     while (i < str->size_m && match < tofind->size_m) {
         if (str->data[i] == tofind->data[match])
@@ -306,6 +315,9 @@ size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
 }
 
 int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
+    // compare strings
+    // behaviour is like in strcmp
+    // return 0 if there are equal, -1 if first is less, 1 if second is less.
     size_t i = 0;
     while (i < (*str1).size_m && i < (*str2).size_m) {
         if ((*str1).data[i] > (*str2).data[i])
@@ -323,6 +335,9 @@ int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
 
 // TODO: test my_str_cmp_cstr
 int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
+    // compare string with cstring
+    // behavior is the same as in strcmp
+    // return 0 if there are equal, -1 if first is less, 1 if second is less
     size_t str2_len = char_arr_len(cstr2);
     if (str1->size_m > str2_len)
         return 1;
@@ -339,12 +354,14 @@ int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
 
 // TODO: test my_str_find_c
 size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
+    // find first symbol in the string
+    // from - place from where start searching
+    // if from greater then size of string, we cant find char
+    // return it`s index or (size_t) (-1) if there no `tofind` chars there.
     if (from > str->size_m)
         return -1;
     if (from < 0)
         from = 0;
-//        exit(1);
-
     for (size_t j = from; j < str->size_m; ++j) {
         if (str->data[j] == tofind)
             return j;
@@ -354,6 +371,8 @@ size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
 
 // TODO: test my_str_find_if
 size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
+    // find symbol in the string for whish function returns true
+    // return it`s index or (size_t) (-1) if there no such character
     for (int j = 0; j < str->size_m; ++j) {
         if (predicat(str->data[j]))
             return j;
@@ -362,14 +381,20 @@ size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
 }
 
 int my_str_read_file(my_str_t *str, FILE *file) {
+    // read string from file
+    // it reads all file
+    // return 0 if everything ok, negative numbers otherwise
     return my_str_read_file_delim(str, file, EOF);
 }
 
 int my_str_read(my_str_t *str) {
+    //analog of my_str_read_file but from stdin
     return my_str_read_file(str, stdin);
 }
 
 int my_str_write_file(const my_str_t *str, FILE *file) {
+    // write string to the file
+    // return 0 if everything ok, negative numbers otherwise
     my_str_t printed_str;
     if (my_str_create(&printed_str, 0) != 0)
         return -1;
@@ -380,10 +405,14 @@ int my_str_write_file(const my_str_t *str, FILE *file) {
 }
 
 int my_str_write(const my_str_t *str) {
+    // write string on the console, stdout
+    // return 0 if everything ok, negative numbers otherwise
     return my_str_write_file(str, stdout);
 }
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
+    // read before the given `delimiter`
+    // return 0 if everything ok, negative numbers otherwise
     int current_c;
     str->size_m = 0;
     while ((current_c = fgetc(file)) != delimiter) {

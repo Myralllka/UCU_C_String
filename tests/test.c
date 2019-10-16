@@ -1,11 +1,6 @@
 #include "test.h"
-<<<<<<< HEAD
 #include "../lib/include/c_string.h"
-
-=======
-#include "../cstring/include/library.h"
 #include <ctype.h>
->>>>>>> myralllka
 
 int tests(void) {
     if (test_my_str_create()) printf("fail test 1\n");
@@ -246,15 +241,24 @@ int test_my_str_substr() {
     my_str_create(&str1, 0);
     my_str_create(&str2, 0);
     my_str_from_cstr(&str1, "hello world", 0);
-    my_str_substr(&str1, &str2, 1, 4);
-    puts(my_str_get_cstr(&str2));
+    my_str_substr(&str1, &str2, 0, 5);
+    if (str2.data[str2.size_m-1] != 'o') return -1;
     my_str_free(&str1);
     my_str_free(&str2);
-    return -1;
+    return 0;
 }
 
 int test_my_str_substr_cstr() {
-    return -1;
+    my_str_t str;
+    char c[10];
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_substr_cstr(&str, c, 0, 5);
+    if (c[4] != 'o') return -1;
+    if (!my_str_substr_cstr(&str, c, -3, 5)) return -1;
+    if (my_str_substr_cstr(&str, c, 3, 45)) return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_reserve() {
