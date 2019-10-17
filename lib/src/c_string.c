@@ -31,7 +31,7 @@ int my_str_from_cstr(my_str_t *str, const char *cstr, size_t buf_size) {
     // if buf_size == 0 then buf_size will be equal to real size
     // return -1 if buf size is less then real size then it is a mistake
     // return -2 if it is impossible to give enough memory
-    //return 0 if everything is Ok
+    // return 0 if everything is Ok
     size_t real_cstring_size = 0;
     while (*(cstr + real_cstring_size) != '\0') {
         real_cstring_size += 1;
@@ -58,8 +58,8 @@ size_t my_str_size(const my_str_t *str) {
 }
 
 size_t my_str_capacity(const my_str_t *str) {
-    //Return buffer size (capacity) of the str
-    //0 for NULL pointer
+    // Return buffer size (capacity) of the str
+    // 0 for NULL pointer
     if (str == NULL) return 0;
     return str->capacity_m;
 }
@@ -71,7 +71,7 @@ int my_str_empty(const my_str_t *str) {
 }
 
 int my_str_getc(const my_str_t *str, size_t index) {
-    //return -1 if index is incorrect, otherwise the char on needed position
+    // return -1 if index is incorrect, otherwise the char on needed position
     if (str == NULL) return -1;
     if ((index > str->size_m - 1) || (index < 0)) return -1;
     return str->data[index];
@@ -93,10 +93,10 @@ const char *my_str_get_cstr(my_str_t *str) {
 }
 
 int my_str_pushback(my_str_t *str, char c) {
-    //Add a symbol (character) in the end of the my_str
-    //return 0 if there no mistakes
-    //return -1 if zero pointer
-    //return -2 if it is impossible to reserve new memory
+    // Add a symbol (character) in the end of the my_str
+    // return 0 if there no mistakes
+    // return -1 if zero pointer
+    // return -2 if it is impossible to reserve new memory
     if (str == NULL)
         return -1;
     if (my_str_reserve(str, str->size_m + 1) == -1)
@@ -107,10 +107,10 @@ int my_str_pushback(my_str_t *str, char c) {
 }
 
 int my_str_popback(my_str_t *str) {
-    //Delete symbol from the end
-    //return the symbol if there were no mistakes
-    //return -1 if zero pointer
-    //return -2 if my_str is empty
+    // Delete symbol from the end
+    // return the symbol if there were no mistakes
+    // return -1 if zero pointer
+    // return -2 if my_str is empty
     if (str == NULL)
         return -1;
     if (str->size_m == 0) {
@@ -121,10 +121,10 @@ int my_str_popback(my_str_t *str) {
 }
 
 int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
-    //Copy the string
-    //If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
-    //return 0 if there is no mistakes
-    //return -1 if there no memory left
+    // Copy the string
+    // If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
+    // return 0 if there is no mistakes
+    // return -1 if there no memory left
     int new_buffer;
     if (reserve)
         new_buffer = from->capacity_m;
@@ -290,8 +290,12 @@ int my_str_shrink_to_fit(my_str_t *str) {
 
 
 // TODO: test my_str_find AND possibly delete input checks
-
 size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
+    // Find the 'tofind' string in the 'str' string starting to search from the 'from' index
+    // If the 'from' is closer ot the end of the 'str' than the length of the 'tofind'
+    // string than returns -1 (not found)
+    // If the function do not find the 'tofind' string then it returns -1
+    // else it return the index of the beginning of the searched substring in the 'str' string
     // find first substring in string
     // from - place from where we have to search
     // if from os greater then size, we cant find it.
@@ -315,44 +319,45 @@ size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
 }
 
 int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
-    // compare strings
-    // behaviour is like in strcmp
-    // return 0 if there are equal, -1 if first is less, 1 if second is less.
+    // This function return values that are as follows:
+    // Return value < 0 if str1 is alphabetical less than str2.
+    // Return value > 0 if str2 is alphabetical less than str1.
+    // Return value = 0 if str1 is equal to str2.
     size_t i = 0;
-    while (i < (*str1).size_m && i < (*str2).size_m) {
-        if ((*str1).data[i] > (*str2).data[i])
+    while (i < str1->size_m && i < str2->size_m) {
+        if (str1->data[i] > str2->data[i])
             return 1;
-        else if ((*str1).data[i] < (*str2).data[i])
+        else if (str1->data[i] < str2->data[i])
             return -1;
         i++;
     }
-    if ((*str1).size_m > (*str2).size_m)
+    if (str1->size_m > str2->size_m)
         return 1;
-    else if ((*str1).size_m < (*str2).size_m)
+    else if (str1->size_m < str2->size_m)
         return -1;
     return 0;
 }
 
-// TODO: test my_str_cmp_cstr
 int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
     // compare string with cstring
     // behavior is the same as in strcmp
     // return 0 if there are equal, -1 if first is less, 1 if second is less
-    size_t str2_len = char_arr_len(cstr2);
-    if (str1->size_m > str2_len)
-        return 1;
-    else if (str1->size_m < str2_len)
-        return -1;
-    else {
-        for (int j = 0; j < str1->size_m; ++j) {
-            if (str1->data[j] != cstr2[j])
-                return -1;
-        }
-        return 0;
+    size_t i = 0;
+    size_t cstr2_len = char_arr_len(cstr2);
+    while (i < str1->size_m && i < cstr2_len) {
+        if (str1->data[i] > cstr2[i])
+            return 1;
+        else if (str1->data[i] < cstr2[i])
+            return -1;
+        i++;
     }
+    if ((*str1).size_m > cstr2_len)
+        return 1;
+    else if (str1->size_m < cstr2_len)
+        return -1;
+    return 0;
 }
 
-// TODO: test my_str_find_c
 size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
     // find first symbol in the string
     // from - place from where start searching
@@ -360,8 +365,7 @@ size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
     // return it`s index or (size_t) (-1) if there no `tofind` chars there.
     if (from > str->size_m)
         return -1;
-    if (from < 0)
-        from = 0;
+
     for (size_t j = from; j < str->size_m; ++j) {
         if (str->data[j] == tofind)
             return j;
@@ -369,21 +373,19 @@ size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
     return (size_t) (-1);
 }
 
-// TODO: test my_str_find_if
 size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
-    // find symbol in the string for whish function returns true
-    // return it`s index or (size_t) (-1) if there no such character
-    for (int j = 0; j < str->size_m; ++j) {
-        if (predicat(str->data[j]))
+    // Find the first occurrence of a char that satisfy the 'predicat' function
+    // If there is not such char in the string returns -1
+    for (size_t j = 0; j < str->size_m; ++j) {
+        if (predicat((int) str->data[j]))
             return j;
     }
     return (size_t) (-1);
 }
 
 int my_str_read_file(my_str_t *str, FILE *file) {
-    // read string from file
-    // it reads all file
-    // return 0 if everything ok, negative numbers otherwise
+    // read the file to the EOF
+    // return 0 if everything is Ok else -1 if can not add a character from the file to the end of the string
     return my_str_read_file_delim(str, file, EOF);
 }
 
@@ -416,6 +418,7 @@ int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
     int current_c;
     str->size_m = 0;
     while ((current_c = fgetc(file)) != delimiter) {
+        if (current_c == EOF) break;
         if (my_str_pushback(str, (char) current_c) != 0)
             return -1;
     }
@@ -443,9 +446,8 @@ int my_str_realloc(my_str_t *str, size_t buffer) {
 }
 
 size_t char_arr_len(const char *s) {
+    // return the length of a char array
     size_t i = 0;
-    while (*(s + i) != '\0') {
-        i++;
-    }
+    while (s[i] != '\0') i++;
     return i;
 }

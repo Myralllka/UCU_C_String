@@ -2,37 +2,49 @@
 #include "../lib/include/c_string.h"
 #include <ctype.h>
 
+typedef struct {
+    char* name;
+    int (*func)(void);
+} function;
+
 int tests(void) {
-    if (test_my_str_create()) printf("fail test 1\n");
-    if (test_my_str_from_cstr()) printf("fail test 2\n");
-    if (test_my_str_size()) printf("fail test 3\n");
-    if (test_my_str_capacity()) printf("fail test 4\n");
-    if (test_my_str_empty()) printf("fail test 5\n");
-    if (test_my_str_getc()) printf("fail test 6\n");
-    if (test_my_str_putc()) printf("fail test 7\n");
-    if (test_my_str_get_cstr()) printf("fail test 8\n");
-    if (test_my_str_pushback()) printf("fail test 9\n");
-    if (test_my_str_popback()) printf("fail test 10\n");
-    if (test_my_str_copy()) printf("fail test 11\n");
-    if (test_my_str_insert_c()) printf("fail test 13\n");
-    if (test_my_str_insert()) printf("fail test 14\n");
-    if (test_my_str_insert_cstr()) printf("fail test 15\n");
-    if (test_my_str_append()) printf("fail test 16\n");
-    if (test_my_str_append_cstr()) printf("fail test 17\n");
-    if (test_my_str_substr()) printf("fail test 18\n");
-    if (test_my_str_substr_cstr()) printf("fail test 19\n");
-    if (test_my_str_reserve()) printf("fail test 20\n");
-//    if (test_my_str_shrink_to_fit()) printf("fail test 21\n");
-//    if (test_my_str_resize()) printf("fail test 22\n");
-//    if (test_my_str_cmp()) printf("fail test 23\n");
-//    if (test_my_str_cmp_cstr()) printf("fail test 24\n");
-//    if (test_my_str_find_c()) printf("fail test 25\n");
-//    if (test_my_str_find_if()) printf("fail test 26\n");
-//    if (test_my_str_read_file()) printf("fail test 27\n");
-//    if (test_my_str_read()) printf("fail test 28\n");
-//    if (test_my_str_write_file()) printf("fail test 29\n");
-//    if (test_my_str_write()) printf("fail test 30\n");
-//    if (test_my_str_read_file_delim()) printf("fail test 31\n");
+    function names[] = {"test_my_str_create", test_my_str_create,
+                     "test_my_str_from_cstr", test_my_str_from_cstr,
+                     "test_my_str_size", test_my_str_size,
+                     "test_my_str_capacity", test_my_str_capacity,
+                     "test_my_str_empty", test_my_str_empty,
+                     "test_my_str_getc", test_my_str_getc,
+                     "test_my_str_putc", test_my_str_putc,
+                     "test_my_str_get_cstr", test_my_str_get_cstr,
+                     "test_my_str_pushback", test_my_str_pushback,
+                     "test_my_str_popback", test_my_str_popback,
+                     "test_my_str_copy", test_my_str_copy,
+                     "test_my_str_insert_c", test_my_str_insert_c,
+                     "test_my_str_insert", test_my_str_insert,
+                     "test_my_str_insert_cstr", test_my_str_insert_cstr,
+                     "test_my_str_append", test_my_str_append,
+                     "test_my_str_append_cstr", test_my_str_append_cstr,
+                     "test_my_str_substr", test_my_str_substr,
+                     "test_my_str_substr_cstr", test_my_str_substr_cstr,
+//                     "test_my_str_reserve", test_my_str_reserve,
+//                     "test_my_str_shrink_to_fit", test_my_str_shrink_to_fit,
+//                     "test_my_str_resize", test_my_str_resize,
+//                     "test_my_str_find", test_my_str_find,
+                     "test_my_str_cmp", test_my_str_cmp,
+                     "test_my_str_cmp_cstr", test_my_str_cmp_cstr,
+                     "test_my_str_find_c", test_my_str_find_c,
+                     "test_my_str_find_if", test_my_str_find_if,
+                     "test_my_str_read_file", test_my_str_read_file,
+                     "test_my_str_write_file", test_my_str_write_file,
+                     "test_my_str_read_file_delim", test_my_str_read_file_delim};
+
+    for (int i = 0; i < 18; ++i) {
+        int res;
+        res = (names[i].func)();
+        if (res)
+            printf("Test %i '%s':\t\tFail %i\n", i + 1, names[i].name, res);
+    }
+
     return 0;
 }
 
@@ -273,38 +285,185 @@ int test_my_str_resize() {
     return -1;
 }
 
-int test_my_str_cmp() {
+int test_my_str_find() {
     return -1;
+}
+
+int test_my_str_cmp() {
+    my_str_t str;
+    my_str_t tmp;
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_create(&tmp, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "abcd", 0) != 0) return -13;
+
+    if (my_str_from_cstr(&tmp, "a", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 1) return -1;
+
+    if (my_str_from_cstr(&tmp, "bcscas", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != -1) return -2;
+
+    if (my_str_from_cstr(&tmp, "c", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != -1) return -3;
+
+    if (my_str_from_cstr(&str, "klmnop", 0) != 0) return -13;
+    if (my_str_from_cstr(&tmp, "asdasd", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 1) return -4;
+
+    if (my_str_from_cstr(&tmp, "b", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 1) return -5;
+
+    if (my_str_from_cstr(&str, "gfg", 0) != 0) return -13;
+    if (my_str_from_cstr(&tmp, "gbasd", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 1) return -6;
+
+    if (my_str_from_cstr(&tmp, "gfg", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 0) return -7;
+
+    if (my_str_from_cstr(&str, "v", 0) != 0) return -13;
+    if (my_str_from_cstr(&tmp, "v", 0) != 0) return -13;
+    if (my_str_cmp(&str, &tmp) != 0) return -8;
+
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_cmp_cstr() {
-    return -1;
+    my_str_t str;
+
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "abcd", 0) != 0) return -13;
+
+    if (my_str_cmp_cstr(&str, "a") != 1) return -1;
+
+    if (my_str_cmp_cstr(&str, "bcscas") != -1) return -2;
+
+    if (my_str_cmp_cstr(&str, "c") != -1) return -3;
+
+    if (my_str_from_cstr(&str, "klmnop", 0) != 0) return -13;
+    if (my_str_cmp_cstr(&str, "asdasd") != 1) return -4;
+
+    if (my_str_cmp_cstr(&str, "b") != 1) return -5;
+
+    if (my_str_from_cstr(&str, "gfg", 0) != 0) return -13;
+    if (my_str_cmp_cstr(&str, "gbasd") != 1) return -6;
+
+    if (my_str_cmp_cstr(&str, "gfg") != 0) return -7;
+
+    if (my_str_from_cstr(&str, "v", 0) != 0) return -13;
+    if (my_str_cmp_cstr(&str, "v") != 0) return -8;
+
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_find_c() {
-    return -1;
+    my_str_t str;
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return -13;
+
+    if (my_str_find_c(&str, 't', 0) != 0) return -2;
+    if (my_str_find_c(&str, 't', 1) != 7) return -3;
+    if (my_str_find_c(&str, 't', 9) != 9) return -4;
+    if (my_str_find_c(&str, 't', 10) != 12) return -5;
+    if (my_str_find_c(&str, 't', 13) != -1) return -6;
+    if (my_str_find_c(&str, 't', 100) != -1) return -7;
+
+    if (my_str_find_c(&str, 'e', 0) != 2) return -8;
+    if (my_str_find_c(&str, 'e', 14) != 16) return -9;
+    if (my_str_find_c(&str, 'e', 15) != 16) return -10;
+    if (my_str_find_c(&str, '\n', 15) != 42) return -11;
+
+    my_str_free(&str);
+    return 0;
+}
+
+int false_pred(int c) {
+    return 0;
+}
+
+int five_mod_pred(int c) {
+    switch ((char) c) {
+        case 'a':
+            return 1;
+        case 'b':
+            return 1;
+        case 'c':
+            return 1;
+    }
+    return 0;
 }
 
 int test_my_str_find_if() {
-    return -1;
+    my_str_t str;
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return -13;
+
+    if (my_str_find_if(&str, five_mod_pred) != (size_t) (4)) return -1;
+    if (my_str_find_if(&str, false_pred) != (size_t) (-1)) return -2;
+
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_read_file() {
-    return -1;
-}
+    // read the file docs/alice29.txt and checks the number of characters that should be 152089
+    my_str_t str;
+    FILE* alice_p = fopen("../docs/alice29.txt", "r");
 
-int test_my_str_read() {
-    return -1;
+    if (alice_p == NULL) return -11;
+    if (my_str_create(&str, 1) != 0) return -12;
+
+//    delimiter is not in file
+    if (my_str_read_file(&str, alice_p) != 0) return -1;
+    if (str.size_m != 152089) return -2;
+
+    my_str_free(&str);
+    fclose(alice_p);
+    return 0;
 }
 
 int test_my_str_write_file() {
-    return -1;
-}
+    // create file "docs/test_out.txt" with content "test_my_str_write_file\n"
+    my_str_t str;
+    FILE* output_p = fopen("../docs/test_out.txt", "w");
 
-int test_my_str_write() {
-    return -1;
+    if (output_p == NULL) return -11;
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "test_my_str_write_file\n", 0) != 0) return -13;
+    if (my_str_write_file(&str, output_p) != 0) return -1;
+
+    my_str_free(&str);
+    fclose(output_p);
+    return 0;
 }
 
 int test_my_str_read_file_delim() {
-    return -1;
+    my_str_t str;
+    FILE* alice_p = fopen("../docs/alice29.txt", "r");
+    if (alice_p == NULL) return -11;
+//    char c = (char) fgetc(alice_p);
+//    fseek(alice_p, 26, SEEK_CUR);
+//    char c2_res = (char) fgetc(alice_p);
+//    char c2 = (char) fgetc(alice_p);
+//    rewind(alice_p);
+
+    my_str_create(&str, 1);
+//    delimiter on the very beginning
+    if (my_str_read_file_delim(&str, alice_p, '\r') != 0) return -1;
+    if (str.size_m) return -2;
+    rewind(alice_p);  // reset the cursor of the file
+
+//    delimiter on the firs page
+    if (my_str_read_file_delim(&str, alice_p, 'E') != 0) return -3;
+    if (str.size_m != 28 && str.data[27] == 'S') return -4;
+    rewind(alice_p);
+
+//    delimiter is not in file
+    if (my_str_read_file_delim(&str, alice_p, '{') != 0) return -5;
+    if (str.size_m != 152089) return -6;
+    rewind(alice_p);
+
+    my_str_free(&str);
+    fclose(alice_p);
+    return 0;
 }
