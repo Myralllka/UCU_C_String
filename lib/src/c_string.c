@@ -88,7 +88,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
 
 const char *my_str_get_cstr(my_str_t *str) {
     //return pointer on the C_string
-    str->data[str->size_m + 1] = '\0';
+    str->data[str->size_m] = '\0';
     return str->data;
 }
 
@@ -144,9 +144,9 @@ void my_str_clear(my_str_t *str) {
 }
 
 int my_str_insert_c(my_str_t *str, char c, size_t pos) {
-    //
-    //
-    //
+    // insert char on the needed position
+    // moving else symbols right
+    // return zero if everything is ok, negative values otherwise
     if (str == NULL)
         return -1;
     if (pos > str->size_m)
@@ -160,10 +160,12 @@ int my_str_insert_c(my_str_t *str, char c, size_t pos) {
 }
 
 int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {
-    if (str == NULL || from == NULL)
-        return -1;
-    if (pos > str->size_m)
-        return -2;
+    // insert string in needed position
+    // make buffer bigger if necessary
+    // return 0 if there is no mistakes, negative numbers otherwise
+    if (str == NULL) return -1;
+    if (from == NULL) return -1;
+    if (pos > str->size_m) return -2;
     if (my_str_reserve(str, str->size_m + from->size_m) != 0)
         return -3;
     memmove(str->data + pos + from->size_m, str->data + pos, str->size_m - pos);
@@ -173,6 +175,9 @@ int my_str_insert(my_str_t *str, const my_str_t *from, size_t pos) {
 }
 
 int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {
+    // insert cstring in needed position
+    // make buffer bigger if necessary
+    // return 0 if there is no mistakes, negative numbers
     my_str_t temp;
     my_str_create(&temp, 0);
     my_str_from_cstr(&temp, from, 0);
@@ -182,14 +187,21 @@ int my_str_insert_cstr(my_str_t *str, const char *from, size_t pos) {
 }
 
 int my_str_append(my_str_t *str, const my_str_t *from) {
+    // add string in the end of given string
+    // return 0 if there is no mistakes, negative numbers otherwise
     return my_str_insert(str, from, str->size_m);
 }
 
 int my_str_append_cstr(my_str_t *str, const char *from) {
+    // add string in the end of given string
+    // return 0 if there is no mistakes, negative numbers otherwise
     return my_str_insert_cstr(str, from, str->size_m);
 }
 
 static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
+    // helper function for my_str_substr
+    // check borders (the first and the last indexes)
+    // return TODO: WHAT does it return and when?)
     if (!(beg >= 0 && beg < str->size_m) || *end < beg)
         return 0;
     if (*end > str->size_m)
@@ -198,6 +210,11 @@ static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
 }
 
 int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
+    // copy the substring from beg to end including end.
+    // beg can be in the middle of string, but not outside.
+    // end can be outside - then function will copy everything to the end of the string.
+    // increase buffer if needed.
+    // return 0 if there is no mistakes, negative numbers otherwise.
     if (!check_borders(from, beg, &end))
         return -1;
     if (my_str_reserve(to, end - beg) != 0)
@@ -208,9 +225,10 @@ int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
 }
 
 int my_str_substr_cstr(const my_str_t *from, char *to, size_t beg, size_t end) {
+    // C-string variant of my_str_substr
+    // we define that in the string there were enough space
     if (!check_borders(from, beg, &end))
         return -1;
-    printf("%i\n", sizeof(to));
     memmove(to, from->data + beg, end - beg);
     to[end - beg] = '\0';
     return 0;
@@ -239,6 +257,10 @@ int my_str_reserve(my_str_t *str, size_t buf_size) {
 }
 
 int my_str_resize(my_str_t *str, size_t new_size, char sym) {
+    // function to resize the string
+    // if new size is greater then current size
+    // resize it and set all new symbols as `sym`
+    // return 0 if everything is ok, negative numbers otherwise
     if (new_size < 0)
         return -1;
     if (new_size <= str->size_m) {
@@ -254,8 +276,9 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
     return 0;
 }
 
-// not tested
 int my_str_shrink_to_fit(my_str_t *str) {
+    // make buffer size equal to capacity.
+    // return 0 if everything is ok, negative numbers otherwise.
     if (str == NULL) return -1;
 
     if (str->size_m + 1 != str->capacity_m) {
@@ -273,6 +296,14 @@ size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
     // string than returns -1 (not found)
     // If the function do not find the 'tofind' string then it returns -1
     // else it return the index of the beginning of the searched substring in the 'str' string
+    // find first substring in string
+    // from - place from where we have to search
+    // if from os greater then size, we cant find it.
+    // return number of begin of substring if it is occur, (size_t)(-1) otherwise.
+    if (str == NULL) return 1;
+    if (str->size_m < tofind->size_m) return 1;
+    if (from >= str->size_m || from < 0) return 2;
+    if (tofind->size_m == 0) return (size_t)(-1);
     size_t i = from, match = 0;
     while (i < str->size_m && match < tofind->size_m) {
         if (str->data[i] == tofind->data[match])
@@ -329,10 +360,10 @@ int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
 }
 
 size_t my_str_find_c(const my_str_t *str, char tofind, size_t from) {
-    // Find the tofind char in the string starting to search from the 'from' index
-    // If the from is larger than the size of string return -1 (not found)
-    // If the function do not find the char then it returns -1
-    // else it return the index of the char in the string
+    // find first symbol in the string
+    // from - place from where start searching
+    // if from greater then size of string, we cant find char
+    // return it`s index or (size_t) (-1) if there no `tofind` chars there.
     if (from > str->size_m)
         return -1;
 
@@ -368,34 +399,26 @@ int my_str_read(my_str_t *str) {
 }
 
 int my_str_write_file(const my_str_t *str, FILE *file) {
-    // write the string to the file
-    // return -111 if can not create a new string
-    // return -211 if can not copy the string
-    // return the negative values of fprintf if there is an error
-    // return 0 if everything is Ok
+    // write string to the file
+    // return 0 if everything ok, negative numbers otherwise
     my_str_t printed_str;
     if (my_str_create(&printed_str, 0) != 0)
-        return -111;
+        return -1;
     if (my_str_copy(str, &printed_str, 1) != 0)
-        return -211;
-    int res = fprintf(file, "%s", my_str_get_cstr(&printed_str));
-    if (!res) return res;
+        return -2;
+    fprintf(file, "%s", my_str_get_cstr(&printed_str));
     return 0;
 }
 
 int my_str_write(const my_str_t *str) {
-    // write the string to the standard output file
-    // return -111 if can not create a new string
-    // return -211 if can not copy the string
-    // return the negative values of fprintf if there is an error
-    // return 0 if everything is Ok
+    // write string on the console, stdout
+    // return 0 if everything ok, negative numbers otherwise
     return my_str_write_file(str, stdout);
 }
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
-    // read the file to the occurrence of the delimiter character
-    // return -1 if can not add a character from the file to the end of the string
-    // return 0 if everything is Ok
+    // read before the given `delimiter`
+    // return 0 if everything ok, negative numbers otherwise
     int current_c;
     str->size_m = 0;
     while ((current_c = fgetc(file)) != delimiter && current_c != EOF) {

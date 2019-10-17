@@ -1,6 +1,6 @@
 #include "test.h"
 #include "../lib/include/c_string.h"
-
+#include <ctype.h>
 
 int tests(void) {
     char* names[] = {"test_my_str_create",         // 1
@@ -211,31 +211,95 @@ int test_my_str_copy() {
 }
 
 int test_my_str_insert_c() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_insert_c(&str, 'A', 0);
+    if (str.data[0] != 'A') return -1;
+    my_str_insert_c(&str, 'A', str.size_m);
+    if (str.data[str.size_m - 1] != 'A') return -1;
+    my_str_insert_c(&str, 'A', 4);
+    if (str.data[4] != 'A') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_insert() {
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_insert(&str1, &str2, str1.size_m);
+    if (str2.data[str2.size_m - 1] != 'd') return -1;
+    my_str_insert(&str1, &str2, 0);
+    if (!isspace(str2.data[0])) return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
+    return 0;
 }
 
 int test_my_str_insert_cstr() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_insert_cstr(&str, c, str.size_m);
+    if (str.data[str.size_m - 1] != 'd') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_append() {
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_append(&str1, &str2);
+    if (str2.data[str2.size_m - 1] != 'd') return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
+    return 0;
 }
 
 int test_my_str_append_cstr() {
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_append_cstr(&str, c);
+    if (str.data[str.size_m - 1] != 'd') return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_substr() {
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 0);
+    my_str_create(&str2, 0);
+    my_str_from_cstr(&str1, "hello world", 0);
+    my_str_substr(&str1, &str2, 0, 5);
+    if (str2.data[str2.size_m-1] != 'o') return -1;
+    my_str_free(&str1);
+    my_str_free(&str2);
+    return 0;
 }
 
 int test_my_str_substr_cstr() {
-    return -1;
+    my_str_t str;
+    char c[10];
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_substr_cstr(&str, c, 0, 5);
+    if (c[4] != 'o') return -1;
+    if (!my_str_substr_cstr(&str, c, -3, 5)) return -1;
+    if (my_str_substr_cstr(&str, c, 3, 45)) return -1;
+    my_str_free(&str);
+    return 0;
 }
 
 int test_my_str_reserve() {
