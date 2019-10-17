@@ -421,7 +421,8 @@ int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
     // return 0 if everything ok, negative numbers otherwise
     int current_c;
     str->size_m = 0;
-    while ((current_c = fgetc(file)) != delimiter && current_c != EOF) {
+    while ((current_c = fgetc(file)) != delimiter) {
+        if (current_c == EOF) break;
         if (my_str_pushback(str, (char) current_c) != 0)
             return -1;
     }
