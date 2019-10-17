@@ -339,10 +339,9 @@ int my_str_cmp(const my_str_t *str1, const my_str_t *str2) {
 }
 
 int my_str_cmp_cstr(const my_str_t *str1, const char *cstr2) {
-    // This function return values that are as follows:
-    // Return value < 0 if str1 is alphabetical less than str2.
-    // Return value > 0 if str2 is alphabetical less than str1.
-    // Return value = 0 if str1 is equal to str2.
+    // compare string with cstring
+    // behavior is the same as in strcmp
+    // return 0 if there are equal, -1 if first is less, 1 if second is less
     size_t i = 0;
     size_t cstr2_len = char_arr_len(cstr2);
     while (i < str1->size_m && i < cstr2_len) {
@@ -386,15 +385,12 @@ size_t my_str_find_if(const my_str_t *str, int (*predicat)(int)) {
 
 int my_str_read_file(my_str_t *str, FILE *file) {
     // read the file to the EOF
-    // return -1 if can not add a character from the file to the end of the string
-    // return 0 if everything is Ok
+    // return 0 if everything is Ok else -1 if can not add a character from the file to the end of the string
     return my_str_read_file_delim(str, file, EOF);
 }
 
 int my_str_read(my_str_t *str) {
-    // read the input from the standard input till the EOF
-    // return -1 if can not add a character from the file to the end of the string
-    // return 0 if everything is Ok
+    //analog of my_str_read_file but from stdin
     return my_str_read_file(str, stdin);
 }
 
