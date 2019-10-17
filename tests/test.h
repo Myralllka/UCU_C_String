@@ -45,6 +45,8 @@ int test_my_str_shrink_to_fit();
 
 int test_my_str_resize();
 
+int test_my_str_find();
+
 int test_my_str_cmp();
 
 int test_my_str_cmp_cstr();
@@ -55,11 +57,7 @@ int test_my_str_find_if();
 
 int test_my_str_read_file();
 
-int test_my_str_read();
-
 int test_my_str_write_file();
-
-int test_my_str_write();
 
 int test_my_str_read_file_delim();
 
