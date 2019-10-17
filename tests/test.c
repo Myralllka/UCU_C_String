@@ -15,13 +15,13 @@ int tests(void) {
                      "test_my_str_popback",        // 10
                      "test_my_str_copy",           // 11
 
-//                     "test_my_str_insert_c",       // 12
-//                     "test_my_str_insert",         // 13
-//                     "test_my_str_insert_cstr",    // 14
-//                     "test_my_str_append",         // 15
-//                     "test_my_str_append_cstr",    // 16
-//                     "test_my_str_substr",         // 17
-//                     "test_my_str_substr_cstr",    // 18
+                     "test_my_str_insert_c",       // 12
+                     "test_my_str_insert",         // 13
+                     "test_my_str_insert_cstr",    // 14
+                     "test_my_str_append",         // 15
+                     "test_my_str_append_cstr",    // 16
+                     "test_my_str_substr",         // 17
+                     "test_my_str_substr_cstr",    // 18
 //                     "test_my_str_reserve",        // 19
 //                     "test_my_str_shrink_to_fit",  // 20
 //                     "test_my_str_resize",         // 21
@@ -47,13 +47,13 @@ int tests(void) {
                                 test_my_str_popback,        // 10
                                 test_my_str_copy,           // 11
 
-//                                test_my_str_insert_c,       // 12
-//                                test_my_str_insert,         // 13
-//                                test_my_str_insert_cstr,    // 14
-//                                test_my_str_append,         // 15
-//                                test_my_str_append_cstr,    // 16
-//                                test_my_str_substr,         // 17
-//                                test_my_str_substr_cstr,    // 18
+                                test_my_str_insert_c,       // 12
+                                test_my_str_insert,         // 13
+                                test_my_str_insert_cstr,    // 14
+                                test_my_str_append,         // 15
+                                test_my_str_append_cstr,    // 16
+                                test_my_str_substr,         // 17
+                                test_my_str_substr_cstr,    // 18
 //                                test_my_str_reserve,        // 19
 //                                test_my_str_shrink_to_fit,  // 20
 //                                test_my_str_resize,         // 21
