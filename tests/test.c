@@ -26,10 +26,10 @@ int tests(void) {
                      "test_my_str_append_cstr", test_my_str_append_cstr,
                      "test_my_str_substr", test_my_str_substr,
                      "test_my_str_substr_cstr", test_my_str_substr_cstr,
-//                     "test_my_str_reserve", test_my_str_reserve,
-//                     "test_my_str_shrink_to_fit", test_my_str_shrink_to_fit,
-//                     "test_my_str_resize", test_my_str_resize,
-//                     "test_my_str_find", test_my_str_find,
+                     "test_my_str_reserve", test_my_str_reserve,
+                     "test_my_str_shrink_to_fit", test_my_str_shrink_to_fit,
+                     "test_my_str_resize", test_my_str_resize,
+                     "test_my_str_find", test_my_str_find,
                      "test_my_str_cmp", test_my_str_cmp,
                      "test_my_str_cmp_cstr", test_my_str_cmp_cstr,
                      "test_my_str_find_c", test_my_str_find_c,
@@ -40,11 +40,12 @@ int tests(void) {
 
     for (int i = 0; i < 18; ++i) {
         int res;
-        res = (names[i].func)();
+        res = names[i].func();
         if (res)
             printf("Test %i '%s':\t\tFail %i\n", i + 1, names[i].name, res);
     }
-
+    test_my_str_reserve();
+    test_my_str_shrink_to_fit();
     return 0;
 }
 
@@ -274,10 +275,26 @@ int test_my_str_substr_cstr() {
 }
 
 int test_my_str_reserve() {
-    return -1;
+    my_str_t str;
+    char c[10];
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    size_t old_buf_size = str.capacity_m;
+    my_str_reserve(&str, 100);
+    if (str.capacity_m == old_buf_size) return -1;
+    my_str_free(&str);
+    return 0;
 }
 
+
 int test_my_str_shrink_to_fit() {
+    my_str_t str;
+    my_str_create(&str, 0);
+    my_str_from_cstr(&str, "hello wonderful world, hello my dear people, hello everybody", 0);
+    my_str_append_cstr(&str, "hello");
+    my_str_shrink_to_fit(&str);
+    if (str.size_m + 1 != str.capacity_m) return -1;
+    my_str_free(&str);
     return -1;
 }
 
@@ -446,7 +463,6 @@ int test_my_str_read_file_delim() {
 //    char c2_res = (char) fgetc(alice_p);
 //    char c2 = (char) fgetc(alice_p);
 //    rewind(alice_p);
-
     my_str_create(&str, 1);
 //    delimiter on the very beginning
     if (my_str_read_file_delim(&str, alice_p, '\r') != 0) return -1;
