@@ -291,11 +291,6 @@ int my_str_shrink_to_fit(my_str_t *str) {
 
 // TODO: test my_str_find AND possibly delete input checks
 size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
-    // Find the 'tofind' string in the 'str' string starting to search from the 'from' index
-    // If the 'from' is closer ot the end of the 'str' than the length of the 'tofind'
-    // string than returns -1 (not found)
-    // If the function do not find the 'tofind' string then it returns -1
-    // else it return the index of the beginning of the searched substring in the 'str' string
     // find first substring in string
     // from - place from where we have to search
     // if from os greater then size, we cant find it.
