@@ -44,6 +44,8 @@ target_link_libraries(${TEST_NAME} ${LIB_NAME})
 add_executable(${EXEC_NAME} main.c)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/compare_efficiency/CMakeLists.txt)
+
 #####################################
 ## create own target for library
 #pvs_studio_add_target(TARGET ${PROJECT_NAME}.analyze ALL
