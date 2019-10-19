@@ -1,7 +1,6 @@
 #include "lib/include/c_string.h"
 #include <stdio.h>
 
-
 char to_lower(char c) {
     char letters[52] = {'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e',
                         'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j',
