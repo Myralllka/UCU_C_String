@@ -9,7 +9,7 @@
 #include <cstdlib>
 
 extern "C" {
-#include "../cstring/include/library.h"
+#include "../lib/include/c_string.h"
 };
 
 class CString {
