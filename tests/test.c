@@ -4,6 +4,12 @@
 #include "../lib/include/c_string.h"
 #include <ctype.h>
 
+
+int main() {
+    return tests();
+}
+
+
 //typedef struct {
 //    char* name;
 //    int (*func)(void);
@@ -223,7 +229,9 @@ int tests(void) {
         printf("Fail in test_my_str_read_file_delim: code %i\n", tmp);
     }
 
-    if (exit_code != 0) return -1; else return 0;
+    if (exit_code != 0) return 1;
+    printf("Test: OK!\n");
+    return 0;
 }
 
 int test_my_str_create() {
