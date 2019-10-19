@@ -10,26 +10,28 @@ char to_lower(char c) {
                         'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't',
                         'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z'};
     for (int i = 0; i < 52; i++)
-        if (c == letters[i])
+        if (c == letters[i]) {
             if (i % 2 == 0)
                 return letters[++i];
             else
                 return letters[i];
+        }
+    return c;
 }
 
-void swap(char *elements, int k, int t) {
+void swap(char *elements, size_t k, size_t t) {
     // helper function to swap two elements within one array
     char tmp = elements[k];
     elements[k] = elements[t];
     elements[t] = tmp;
 }
 
-int partition(char *elements, int a, int b) {
+size_t partition(char *elements, size_t a, size_t b) {
     // partition function for quick sort
     char x = elements[b];
-    int i = a - 1;
+    size_t i = a - 1;
 
-    for (int j = a; j < b + 1; j++) {
+    for (size_t j = a; j < b + 1; j++) {
         if (to_lower(elements[j]) < to_lower(x)) {
             i++;
             swap(elements, i, j);
@@ -39,9 +41,9 @@ int partition(char *elements, int a, int b) {
     return ++i;
 }
 
-void quickSort(char *elements, int a, int b) {
+void quickSort(char *elements, size_t a, size_t b) {
     if (a < b) {
-        int q = partition(elements, a, b);
+        size_t q = partition(elements, a, b);
         quickSort(elements, a, q - 1);
         quickSort(elements, q + 1, b);
     }
@@ -52,10 +54,10 @@ int is_alpha(char c) {
 }
 
 void my_str_sort_words(my_str_t *str) {
-    int n = my_str_size(str);
-    int word_start = 0;
-    int word_end = -1;
-    for (int i = 0; i < n; i++) {
+    size_t n = my_str_size(str);
+    size_t word_start = 0;
+    size_t word_end = -1;
+    for (size_t i = 0; i < n; i++) {
         if (is_alpha(str->data[i]) == 0) {
             word_end++;
         } else {
@@ -68,11 +70,13 @@ void my_str_sort_words(my_str_t *str) {
 
 int main(int argc, char *argv[]) {
     if (argc == 3) {
-        FILE *read_file;
-        read_file = fopen(argv[1], "r");
-
-        FILE *write_file;
-        write_file = fopen(argv[2], "w");
+        FILE *read_file = fopen(argv[1], "r");
+        if (read_file == NULL) return 1;
+        FILE *write_file = fopen(argv[2], "w");
+        if (write_file == NULL) {
+            fclose(read_file);
+            return 1;
+        }
 
         my_str_t line;
         my_str_create(&line, 360000);
