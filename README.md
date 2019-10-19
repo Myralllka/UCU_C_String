@@ -7,7 +7,7 @@ It is a labwork of [Yuriy Pasichnyk](https://github.com/Fenix-125), [Denys Datsk
 to test our lib, you have to compile it :smile:
 so firstly you have to clone it
 ```
-git clone https://github.com/Myralllka/C_String.git && cd C_String.git
+git clone https://github.com/Myralllka/C_String.git && cd C_String
 ```
 then start the script for compiling and making all needed directories
 ```
