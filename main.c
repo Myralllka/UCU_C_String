@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         my_str_create(&line, 360000);
         my_str_read_file(&line, read_file);
 
-        my_str_sort_words(&line);
+//        my_str_sort_words(&line);
 
         my_str_write_file(&line, write_file);
 
@@ -95,4 +95,3 @@ void my_str_sort_words(my_str_t *str) {
         }
     }
 }
-
