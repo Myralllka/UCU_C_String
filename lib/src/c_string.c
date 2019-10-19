@@ -198,17 +198,6 @@ int my_str_append_cstr(my_str_t *str, const char *from) {
     return my_str_insert_cstr(str, from, str->size_m);
 }
 
-static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
-    // helper function for my_str_substr
-    // check borders (the first and the last indexes)
-    // return TODO: WHAT does it return and when?)
-    if (beg >= str->size_m || *end < beg)
-        return 0;
-    if (*end > str->size_m)
-        *end = str->size_m;
-    return 1;
-}
-
 int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
     // copy the substring from beg to end including end.
     // beg can be in the middle of string, but not outside.
@@ -286,8 +275,6 @@ int my_str_shrink_to_fit(my_str_t *str) {
     return 0;
 }
 
-
-// TODO: test my_str_find AND possibly delete input checks
 size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
     // find first substring in string
     // from - place from where we have to search
@@ -424,9 +411,7 @@ int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
 }
 
 
-/*********************************************************************/
-// TODO: TEST this helper function (used in "my_str_shrink_to_fit")
-// TODO: REWRITE with memcpy or memmove
+/*********************HELPER_FUNCTIONS************************/
 int my_str_realloc(my_str_t *str, size_t buffer) {
     char *data_p = (char *) malloc(buffer + 1);
 
@@ -448,4 +433,15 @@ size_t char_arr_len(const char *s) {
     size_t i = 0;
     while (s[i] != '\0') i++;
     return i;
+}
+
+static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
+    // helper function for my_str_substr
+    // check borders (the first and the last indexes)
+    // return bool = 1 if the string with boarders 'beg' and 'end' fit into 'str' else 0
+    if (beg >= str->size_m || *end < beg)
+        return 0;
+    if (*end > str->size_m)
+        *end = str->size_m;
+    return 1;
 }

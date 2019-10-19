@@ -615,12 +615,8 @@ int test_my_str_read_file_delim() {
     my_str_t str;
     FILE* alice_p = fopen("../docs/alice29.txt", "r");
     if (alice_p == NULL) return free_and_pass(&str, -11);
-//    char c = (char) fgetc(alice_p);
-//    fseek(alice_p, 26, SEEK_CUR);
-//    char c2_res = (char) fgetc(alice_p);
-//    char c2 = (char) fgetc(alice_p);
-//    rewind(alice_p);
     my_str_create(&str, 1);
+
 //    delimiter on the very beginning
     if (my_str_read_file_delim(&str, alice_p, '\r') != 0) return free_close_and_pass(&str, alice_p, -1);
     if (str.size_m) return free_close_and_pass(&str, alice_p, -2);
