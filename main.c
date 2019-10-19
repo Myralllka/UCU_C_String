@@ -1,9 +1,36 @@
 #include "lib/include/c_string.h"
 #include <stdio.h>
+#include "main.h"
+
+int main(int argc, char *argv[]) {
+    if (argc == 3) {
+        FILE *read_file = fopen(argv[1], "r");
+        if (read_file == NULL) return 1;
+        FILE *write_file = fopen(argv[2], "w");
+        if (write_file == NULL) {
+            fclose(read_file);
+            return 1;
+        }
+
+        my_str_t line;
+        my_str_create(&line, 360000);
+        my_str_read_file(&line, read_file);
+
+        my_str_sort_words(&line);
+
+        my_str_write_file(&line, write_file);
+
+        my_str_free(&line);
+        fclose(read_file);
+        fclose(write_file);
+    } else {
+        printf("! please enter file names in the command row\n");
+    }
+    return 0;
+}
 
 char to_lower(char c) {
 //    if (c >= 'A' && c <= 'Z') return (char) c + 'z' - 'a';
-
     char letters[52] = {'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e',
                         'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j',
                         'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
@@ -25,6 +52,11 @@ void swap(char *elements, size_t k, size_t t) {
     elements[k] = elements[t];
     elements[t] = tmp;
 }
+
+int is_alpha(char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
 
 size_t partition(char *elements, size_t a, size_t b) {
     // partition function for quick sort
@@ -49,14 +81,10 @@ void quickSort(char *elements, size_t a, size_t b) {
     }
 }
 
-int is_alpha(char c) {
-    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
-}
-
 void my_str_sort_words(my_str_t *str) {
     size_t n = my_str_size(str);
     size_t word_start = 0;
-    size_t word_end = -1;
+    int word_end = -1; // no size_t since we need negative value
     for (size_t i = 0; i < n; i++) {
         if (is_alpha(str->data[i]) == 0) {
             word_end++;
@@ -68,29 +96,3 @@ void my_str_sort_words(my_str_t *str) {
     }
 }
 
-int main(int argc, char *argv[]) {
-    if (argc == 3) {
-        FILE *read_file = fopen(argv[1], "r");
-        if (read_file == NULL) return 1;
-        FILE *write_file = fopen(argv[2], "w");
-        if (write_file == NULL) {
-            fclose(read_file);
-            return 1;
-        }
-
-        my_str_t line;
-        my_str_create(&line, 360000);
-        my_str_read_file(&line, read_file);
-
-        my_str_sort_words(&line);
-
-        my_str_write_file(&line, write_file);
-
-        my_str_free(&line);
-        fclose(read_file);
-        fclose(write_file);
-    } else {
-        printf("! please enter file names in the command row\n\0");
-    }
-    return 0;
-}
