@@ -308,11 +308,11 @@ int test_my_str_putc() {
 }
 
 int test_my_str_get_cstr() {
-    char* sample = "hello world";
+    char *sample = "hello world";
     my_str_t str;
     my_str_create(&str, 1);
     my_str_from_cstr(&str, sample, 0);
-    const char* res =  my_str_get_cstr(&str);
+    const char *res = my_str_get_cstr(&str);
 
     if (char_arr_len(res) != char_arr_len(sample)) return -1;
 
@@ -360,14 +360,15 @@ int test_my_str_copy() {
 
 int test_my_str_insert_c() {
     my_str_t str;
+    char ch = 'A';
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
-    my_str_insert_c(&str, 'A', 0);
-    if (str.data[0] != 'A') return -1;
-    my_str_insert_c(&str, 'A', str.size_m);
-    if (str.data[str.size_m - 1] != 'A') return -1;
-    my_str_insert_c(&str, 'A', 4);
-    if (str.data[4] != 'A') return -1;
+    my_str_insert_c(&str, ch, 0);
+    if (str.data[0] != ch) return -1;
+    my_str_insert_c(&str, ch, str.size_m);
+    if (str.data[str.size_m - 1] != ch) return -1;
+    my_str_insert_c(&str, ch, 4);
+    if (str.data[4] != ch) return -1;
     my_str_free(&str);
     return 0;
 }
@@ -471,7 +472,7 @@ int test_my_str_shrink_to_fit() {
     my_str_shrink_to_fit(&str);
     if (str.size_m + 1 != str.capacity_m) return -1;
     my_str_free(&str);
-    return -1;
+    return 0;
 }
 
 int test_my_str_resize() {
@@ -590,7 +591,6 @@ int test_my_str_find_if() {
     my_str_t str;
     if (my_str_create(&str, 1) != 0) return -12;
     if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return -13;
-
     if (my_str_find_if(&str, five_mod_pred) != (size_t) (4)) return -1;
     if (my_str_find_if(&str, false_pred) != (size_t) (-1)) return -2;
 
@@ -601,7 +601,7 @@ int test_my_str_find_if() {
 int test_my_str_read_file() {
     // read the file docs/alice29.txt and checks the number of characters that should be 152089
     my_str_t str;
-    FILE* alice_p = fopen("../docs/alice29.txt", "r");
+    FILE *alice_p = fopen("../docs/alice29.txt", "r");
 
     if (alice_p == NULL) return -11;
     if (my_str_create(&str, 1) != 0) return -12;
@@ -618,7 +618,7 @@ int test_my_str_read_file() {
 int test_my_str_write_file() {
     // create file "docs/test_out.txt" with content "test_my_str_write_file\n"
     my_str_t str;
-    FILE* output_p = fopen("../docs/test_out.txt", "w");
+    FILE *output_p = fopen("../docs/test_out.txt", "w");
 
     if (output_p == NULL) return -11;
     if (my_str_create(&str, 1) != 0) return -12;
@@ -632,7 +632,7 @@ int test_my_str_write_file() {
 
 int test_my_str_read_file_delim() {
     my_str_t str;
-    FILE* alice_p = fopen("../docs/alice29.txt", "r");
+    FILE *alice_p = fopen("../docs/alice29.txt", "r");
     if (alice_p == NULL) return -11;
 //    char c = (char) fgetc(alice_p);
 //    fseek(alice_p, 26, SEEK_CUR);
