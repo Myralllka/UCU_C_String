@@ -3,7 +3,7 @@ project(Lab_C_String C)
 
 # PVS Studio
 #include(PVS-Studio.cmake)
-SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 SET(LIB_NAME c_string)
 SET(EXEC_NAME main)
