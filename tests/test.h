@@ -1,6 +1,9 @@
 #ifndef LAB2_TEST_H
 #define LAB2_TEST_H
 
+#include "../lib/include/c_string.h"
+#include <ctype.h>
+
 int tests();
 
 int test_my_str_size();
@@ -60,5 +63,13 @@ int test_my_str_read_file();
 int test_my_str_write_file();
 
 int test_my_str_read_file_delim();
+
+/*******************HELPER_FUNCTIONS**********************************/
+int free_and_pass(my_str_t *str, int exit_code);
+
+int free_two_pass(my_str_t *str1, my_str_t *str2, int exit_code);
+
+int free_close_and_pass(my_str_t *str, FILE *file, int exit_code);
+/*********************************************************************/
 
 #endif //LAB2_TEST_H

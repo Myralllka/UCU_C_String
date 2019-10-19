@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 3.15)
-project(lab2 C)
+project(Lab_C_String C)
+
+# PVS Studio
+#include(PVS-Studio.cmake)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 SET(LIB_NAME c_string)
 SET(EXEC_NAME main)
+SET(TEST_NAME test)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ../bin/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../bin/lib)
 
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
@@ -33,8 +38,18 @@ endif()
 add_library(${LIB_NAME} SHARED lib/src/c_string.c lib/include/c_string.h)
 #target_link_directories(${LIB_NAME} PUBLIC include)
 
-#add_executable(test tests/test.c tests/test.h)
-#target_link_libraries(test ${LIB_NAME})
+add_executable(${TEST_NAME} tests/test.c tests/test.h)
+target_link_libraries(${TEST_NAME} ${LIB_NAME})
 
-add_executable(${EXEC_NAME} main.c tests/test.c tests/test.h)
+add_executable(${EXEC_NAME} main.c)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
+
+#####################################
+## create own target for library
+#pvs_studio_add_target(TARGET ${PROJECT_NAME}.analyze ALL
+#        ANALYZE ${EXEC_NAME} ${LIB_NAME} ${TEST_NAME}
+#        OUTPUT FORMAT errorfile
+#        MODE GA:1,2,3 OP:1,2,3 GA:1,2,3 OP:1,2,3 64:1,2,3 CS:1,2,3 MISRA:1,2,3
+#        LOG target_${PROJECT_NAME}.err)
+
+#####################################

@@ -73,7 +73,7 @@ int my_str_empty(const my_str_t *str) {
 int my_str_getc(const my_str_t *str, size_t index) {
     // return -1 if index is incorrect, otherwise the char on needed position
     if (str == NULL) return -1;
-    if ((index > str->size_m - 1) || (index < 0)) return -1;
+    if (index > str->size_m - 1) return -1;
     return str->data[index];
 }
 
@@ -81,7 +81,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
     // return -1 if index is incorrect, otherwise 0
     // and put char c on the index place
     if (str == NULL) return -1;
-    if ((index >= str->size_m) || (index < 0)) return -1;
+    if (index >= str->size_m) return -1;
     str->data[index] = c;
     return 0;
 }
@@ -125,7 +125,7 @@ int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
     // If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
     // return 0 if there is no mistakes
     // return -1 if there no memory left
-    int new_buffer;
+    size_t new_buffer;
     if (reserve)
         new_buffer = from->capacity_m;
     else
@@ -198,17 +198,6 @@ int my_str_append_cstr(my_str_t *str, const char *from) {
     return my_str_insert_cstr(str, from, str->size_m);
 }
 
-static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
-    // helper function for my_str_substr
-    // check borders (the first and the last indexes)
-    // return TODO: WHAT does it return and when?)
-    if (!(beg >= 0 && beg < str->size_m) || *end < beg)
-        return 0;
-    if (*end > str->size_m)
-        *end = str->size_m;
-    return 1;
-}
-
 int my_str_substr(const my_str_t *from, my_str_t *to, size_t beg, size_t end) {
     // copy the substring from beg to end including end.
     // beg can be in the middle of string, but not outside.
@@ -261,8 +250,6 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
     // if new size is greater then current size
     // resize it and set all new symbols as `sym`
     // return 0 if everything is ok, negative numbers otherwise
-    if (new_size < 0)
-        return -1;
     if (new_size <= str->size_m) {
         str->size_m = new_size;
         return 0;
@@ -288,21 +275,14 @@ int my_str_shrink_to_fit(my_str_t *str) {
     return 0;
 }
 
-
-// TODO: test my_str_find AND possibly delete input checks
 size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
-    // Find the 'tofind' string in the 'str' string starting to search from the 'from' index
-    // If the 'from' is closer ot the end of the 'str' than the length of the 'tofind'
-    // string than returns -1 (not found)
-    // If the function do not find the 'tofind' string then it returns -1
-    // else it return the index of the beginning of the searched substring in the 'str' string
     // find first substring in string
     // from - place from where we have to search
     // if from os greater then size, we cant find it.
     // return number of begin of substring if it is occur, (size_t)(-1) otherwise.
     if (str == NULL) return 1;
     if (str->size_m < tofind->size_m) return 1;
-    if (from >= str->size_m || from < 0) return 2;
+    if (from >= str->size_m) return 2;
     if (tofind->size_m == 0) return (size_t)(-1);
     size_t i = from, match = 0;
     while (i < str->size_m && match < tofind->size_m) {
@@ -398,11 +378,16 @@ int my_str_write_file(const my_str_t *str, FILE *file) {
     // write string to the file
     // return 0 if everything ok, negative numbers otherwise
     my_str_t printed_str;
-    if (my_str_create(&printed_str, 0) != 0)
+    if (my_str_create(&printed_str, 0) != 0) {
+        my_str_free(&printed_str);
         return -1;
-    if (my_str_copy(str, &printed_str, 1) != 0)
+    }
+    if (my_str_copy(str, &printed_str, 1) != 0) {
+        my_str_free(&printed_str);
         return -2;
+    }
     fprintf(file, "%s", my_str_get_cstr(&printed_str));
+    my_str_free(&printed_str);
     return 0;
 }
 
@@ -426,9 +411,7 @@ int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter) {
 }
 
 
-/*********************************************************************/
-// TODO: TEST this helper function (used in "my_str_shrink_to_fit")
-// TODO: REWRITE with memcpy or memmove
+/*********************HELPER_FUNCTIONS************************/
 int my_str_realloc(my_str_t *str, size_t buffer) {
     char *data_p = (char *) malloc(buffer + 1);
 
@@ -450,4 +433,15 @@ size_t char_arr_len(const char *s) {
     size_t i = 0;
     while (s[i] != '\0') i++;
     return i;
+}
+
+static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
+    // helper function for my_str_substr
+    // check borders (the first and the last indexes)
+    // return bool = 1 if the string with boarders 'beg' and 'end' fit into 'str' else 0
+    if (beg >= str->size_m || *end < beg)
+        return 0;
+    if (*end > str->size_m)
+        *end = str->size_m;
+    return 1;
 }
