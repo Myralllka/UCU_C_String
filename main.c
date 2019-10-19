@@ -56,7 +56,8 @@ int is_alpha(char c) {
 void my_str_sort_words(my_str_t *str) {
     size_t n = my_str_size(str);
     size_t word_start = 0;
-    size_t word_end = -1;
+    int word_end = -1;
+
     for (size_t i = 0; i < n; i++) {
         if (is_alpha(str->data[i]) == 0) {
             word_end++;
