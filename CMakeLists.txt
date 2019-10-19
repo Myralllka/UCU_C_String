@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 project(lab2 C)
 
+# PVS Studio
+include(PVS-Studio.cmake)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 SET(LIB_NAME c_string)
 SET(EXEC_NAME main)
 
@@ -11,7 +15,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../bin/lib)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
-#set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 #set(CMAKE_C_EXTENSIONS FALSE) # ???
 #file(GLOB SOURCES src/*.c include/*.h)
@@ -38,3 +42,13 @@ add_library(${LIB_NAME} SHARED lib/src/c_string.c lib/include/c_string.h)
 
 add_executable(${EXEC_NAME} main.c tests/test.c tests/test.h)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
+
+#####################################
+## create own target for library
+#pvs_studio_add_target(TARGET ${EXEC_NAME}.analyze ALL
+#        ANALYZE ${EXEC_NAME} ${LIB_NAME}
+#        OUTPUT FORMAT errorfile
+#        MODE GA:1,2,3 OP:1,2,3 GA:1,2,3 OP:1,2,3 64:1,2,3 CS:1,2,3 MISRA:1,2,3
+#        LOG target_${EXEC_NAME}.err)
+
+#####################################

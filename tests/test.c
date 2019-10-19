@@ -1,14 +1,17 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include "test.h"
 #include "../lib/include/c_string.h"
 #include <ctype.h>
 
-typedef struct {
-    char *name;
-
-    int (*func)(void);
-} function;
+//typedef struct {
+//    char* name;
+//    int (*func)(void);
+//} function;
 
 int tests(void) {
+    int exit_code = 0;
+    /*
     function names[] = {"test_my_str_create", test_my_str_create,
                      "test_my_str_from_cstr", test_my_str_from_cstr,
                      "test_my_str_size", test_my_str_size,
@@ -44,10 +47,182 @@ int tests(void) {
         res = names[i].func();
         if (res)
             printf("Test %i '%s':\t\tFail %i\n", i + 1, names[i].name, res);
+    }*/
+    int tmp = test_my_str_create();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_create: code %i\n", tmp);
     }
-    test_my_str_reserve();
-    test_my_str_shrink_to_fit();
-    return 0;
+
+    tmp = test_my_str_from_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_from_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_size();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_size: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_capacity();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_capacity: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_empty();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_empty: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_getc();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_getc: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_putc();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_putc: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_get_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_get_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_pushback();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_pushback: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_popback();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_popback: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_copy();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_copy: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_insert_c();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_insert_c: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_insert();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_insert: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_insert_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_insert_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_append();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_append: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_append_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_append_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_substr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_substr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_substr_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_substr_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_reserve();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_reserve: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_shrink_to_fit();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_shrink_to_fit: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_resize();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_resize: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_find();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_find: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_cmp();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_cmp: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_cmp_cstr();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_cmp_cstr: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_find_c();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_find_c: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_find_if();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_find_if: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_read_file();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_read_file: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_write_file();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_write_file: code %i\n", tmp);
+    }
+
+    tmp = test_my_str_read_file_delim();
+    if (0 != tmp) {
+        exit_code++;
+        printf("Fail in test_my_str_read_file_delim: code %i\n", tmp);
+    }
+
+    if (exit_code != 0) return -1; else return 0;
 }
 
 int test_my_str_create() {
@@ -277,7 +452,7 @@ int test_my_str_substr_cstr() {
 
 int test_my_str_reserve() {
     my_str_t str;
-    char c[10];
+//    char c[10];
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
     size_t old_buf_size = str.capacity_m;
