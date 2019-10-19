@@ -84,7 +84,7 @@ void quickSort(char *elements, size_t a, size_t b) {
 void my_str_sort_words(my_str_t *str) {
     size_t n = my_str_size(str);
     size_t word_start = 0;
-    size_t word_end = -1;
+    int word_end = -1; // no size_t since we need negative value
     for (size_t i = 0; i < n; i++) {
         if (is_alpha(str->data[i]) == 0) {
             word_end++;
