@@ -7,9 +7,9 @@
 
 
 typedef struct {
-    size_t capacity_m; // Розмір блока
-    size_t size_m;     // Фактичний розмір стрічки
-    char *data;       // Вказівник на блок пам'яті
+    size_t capacity_m; // Block size
+    size_t size_m;     // Actual size of the string
+    char *data;       // Pointer on data block
 } my_str_t;
 
 int my_str_create(my_str_t *str, size_t buf_size);
@@ -78,8 +78,6 @@ int my_str_write(const my_str_t *str);
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter);
 
-
-int my_str_substr_cstr(const my_str_t *from, char *to, size_t beg, size_t end);
 
 /*******************HELPER_FUNCTIONS**********************************/
 int my_str_realloc(my_str_t *str, size_t buffer);

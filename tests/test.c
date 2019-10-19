@@ -10,15 +10,16 @@ int main() {
 }
 
 
-//typedef struct {
-//    char* name;
-//    int (*func)(void);
-//} function;
+typedef struct {
+    char *name;
+
+    int (*func)(void);
+} function;
 
 
 int tests(void) {
     int exit_code = 0;
-    /*
+
     function names[] = {"test_my_str_create", test_my_str_create,
                      "test_my_str_from_cstr", test_my_str_from_cstr,
                      "test_my_str_size", test_my_str_size,
@@ -49,184 +50,13 @@ int tests(void) {
                      "test_my_str_write_file", test_my_str_write_file,
                      "test_my_str_read_file_delim", test_my_str_read_file_delim};
 
-    for (int i = 0; i < 18; ++i) {
+    for (size_t i = 0; i < (size_t) sizeof(names) / sizeof(names[0]); ++i) {
         int res;
         res = names[i].func();
-        if (res)
-            printf("Test %i '%s':\t\tFail %i\n", i + 1, names[i].name, res);
-    }*/
-    int tmp = test_my_str_create();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_create: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_from_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_from_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_size();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_size: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_capacity();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_capacity: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_empty();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_empty: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_getc();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_getc: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_putc();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_putc: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_get_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_get_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_pushback();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_pushback: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_popback();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_popback: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_copy();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_copy: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_insert_c();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_insert_c: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_insert();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_insert: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_insert_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_insert_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_append();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_append: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_append_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_append_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_substr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_substr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_substr_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_substr_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_reserve();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_reserve: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_shrink_to_fit();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_shrink_to_fit: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_resize();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_resize: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_find();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_find: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_cmp();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_cmp: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_cmp_cstr();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_cmp_cstr: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_find_c();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_find_c: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_find_if();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_find_if: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_read_file();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_read_file: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_write_file();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_write_file: code %i\n", tmp);
-    }
-
-    tmp = test_my_str_read_file_delim();
-    if (0 != tmp) {
-        exit_code++;
-        printf("Fail in test_my_str_read_file_delim: code %i\n", tmp);
+        if (res) {
+            exit_code++;
+            printf("Test %zu '%s':\t\tFail %i\n", i + 1, names[i].name, res);
+        }
     }
 
     if (exit_code != 0) return 1;
@@ -278,9 +108,9 @@ int test_my_str_empty() {
     my_str_create(&str, 1);
     my_str_create(&empty_str, 1);
     my_str_from_cstr(&str, "hello", 0);
-    if (!my_str_empty(&empty_str)) return free_and_pass(&str, -1);
-    if (my_str_empty(&str)) return free_and_pass(&str, -1);
-    return free_and_pass(&str, 0);
+    if (!my_str_empty(&empty_str)) return free_two_pass(&str, &empty_str, -1);
+    if (my_str_empty(&str)) return free_two_pass(&str, &empty_str, -2);
+    return free_two_pass(&str, &empty_str, 0);
 }
 
 int test_my_str_getc() {
@@ -352,24 +182,21 @@ int test_my_str_copy() {
     my_str_from_cstr(&str1, "hello world", 0);
     my_str_copy(&str1, &str2, 1);
     if (str2.data[str2.size_m - 1] != 'd') {
-        my_str_free(&str1);
-        my_str_free(&str2);
-        return -1;
+        return free_two_pass(&str1, &str2, -1);
     }
-    return 0;
+    return free_two_pass(&str1, &str2, 0);
 }
 
 int test_my_str_insert_c() {
     my_str_t str;
-    char ch = 'A';
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
     my_str_insert_c(&str, 'A', 0);
     if (str.data[0] != 'A') return -1;
     my_str_insert_c(&str, 'A', str.size_m);
     if (str.data[str.size_m - 1] != 'A') return free_and_pass(&str, -1);
-    my_str_insert_c(&str, 'A', 4);
-    if (str.data[4] != 'A') return free_and_pass(&str, -1);
+    my_str_insert_c(&str, 'A', 3);
+    if (str.data[3] != 'A') return free_and_pass(&str, -1);
     return free_and_pass(&str, 0);
 }
 
@@ -444,7 +271,6 @@ int test_my_str_substr_cstr() {
 
 int test_my_str_reserve() {
     my_str_t str;
-//    char c[10];
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
     size_t old_buf_size = str.capacity_m;
@@ -465,50 +291,89 @@ int test_my_str_shrink_to_fit() {
 }
 
 int test_my_str_resize() {
-//    return free_and_pass(&str, -1);
-    return -1;
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+
+    size_t old_buf_size = str.capacity_m;
+    my_str_resize(&str, char_arr_len("hello"), 'N');
+    if (str.size_m != char_arr_len("hello")) return free_and_pass(&str, -1);
+    if (str.capacity_m != char_arr_len("hello world") + 1) return free_and_pass(&str, -2);
+
+    my_str_resize(&str, char_arr_len("helloNNNNNNNNNN"), 'N');
+    if (str.size_m != char_arr_len("helloNNNNNNNNNN")) return free_and_pass(&str, -3);
+    if (my_str_cmp_cstr(&str, "helloNNNNNNNNNN") != 0) return free_and_pass(&str, -5);
+    return free_and_pass(&str, 0);
 }
 
 int test_my_str_find() {
-//    return free_and_pass(&str, -1);
-    return -1;
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello world", 0);
+
+    if (my_str_find(&str1, &str1, 0) != 0) return free_two_pass(&str1, &str2, -1);
+
+    my_str_from_cstr(&str2, "h", 0);
+    if (my_str_find(&str1, &str2, 0) != 0) return free_two_pass(&str1, &str2, -2);
+    if (my_str_find(&str1, &str2, 5) != (size_t) (-1)) return free_two_pass(&str1, &str2, -3);
+
+    my_str_from_cstr(&str2, "ello", 0);
+    if (my_str_find(&str1, &str2, 0) != 1) return free_two_pass(&str1, &str2, -11);
+    if (my_str_find(&str1, &str2, 1) != 1) return free_two_pass(&str1, &str2, -5);
+    if (my_str_find(&str1, &str2, 20) != (size_t) (-1)) return free_two_pass(&str1, &str2, -6);
+
+    my_str_from_cstr(&str2, " w", 5);
+    if (my_str_find(&str1, &str2, 0) != 5) return free_two_pass(&str1, &str2, -7);
+
+    my_str_from_cstr(&str2, "2w", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) return free_two_pass(&str1, &str2, -8);
+
+    my_str_from_cstr(&str2, "hello world1", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) return free_two_pass(&str1, &str2, -9);
+
+    my_str_from_cstr(&str2, "z", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) return free_two_pass(&str1, &str2, -10);
+
+    return free_two_pass(&str1, &str2, 0);
 }
 
 int test_my_str_cmp() {
     my_str_t str;
     my_str_t tmp;
-    if (my_str_create(&str, 1) != 0) return free_and_pass(&str, -12);
-    if (my_str_create(&tmp, 1) != 0) return free_and_pass(&str, -12);
-    if (my_str_from_cstr(&str, "abcd", 0) != 0) return free_and_pass(&str, -13);
+    if (my_str_create(&str, 1) != 0) return free_two_pass(&tmp, &str, -12);
+    if (my_str_create(&tmp, 1) != 0) return free_two_pass(&tmp, &str, -12);
+    if (my_str_from_cstr(&str, "abcd", 0) != 0) return free_two_pass(&tmp, &str, -13);
 
-    if (my_str_from_cstr(&tmp, "a", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 1) return free_and_pass(&str, -1);
+    if (my_str_from_cstr(&tmp, "a", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 1) return free_two_pass(&tmp, &str, -1);
 
-    if (my_str_from_cstr(&tmp, "bcscas", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != -1) return free_and_pass(&str, -2);
+    if (my_str_from_cstr(&tmp, "bcscas", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != -1) return free_two_pass(&tmp, &str, -2);
 
-    if (my_str_from_cstr(&tmp, "c", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != -1) return free_and_pass(&str, -3);
+    if (my_str_from_cstr(&tmp, "c", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != -1) return free_two_pass(&tmp, &str, -3);
 
-    if (my_str_from_cstr(&str, "klmnop", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_from_cstr(&tmp, "asdasd", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 1) return free_and_pass(&str, -4);
+    if (my_str_from_cstr(&str, "klmnop", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_from_cstr(&tmp, "asdasd", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 1) return free_two_pass(&tmp, &str, -9);
 
-    if (my_str_from_cstr(&tmp, "b", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 1) return free_and_pass(&str, -5);
+    if (my_str_from_cstr(&tmp, "b", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 1) return free_two_pass(&tmp, &str, -5);
 
-    if (my_str_from_cstr(&str, "gfg", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_from_cstr(&tmp, "gbasd", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 1) return free_and_pass(&str, -6);
+    if (my_str_from_cstr(&str, "gfg", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_from_cstr(&tmp, "gbasd", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 1) return free_two_pass(&tmp, &str, -6);
 
-    if (my_str_from_cstr(&tmp, "gfg", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 0) return free_and_pass(&str, -7);
+    if (my_str_from_cstr(&tmp, "gfg", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 0) return free_two_pass(&tmp, &str, -7);
 
-    if (my_str_from_cstr(&str, "v", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_from_cstr(&tmp, "v", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp(&str, &tmp) != 0) return free_and_pass(&str, -8);
+    if (my_str_from_cstr(&str, "v", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_from_cstr(&tmp, "v", 0) != 0) return free_two_pass(&tmp, &str, -13);
+    if (my_str_cmp(&str, &tmp) != 0) return free_two_pass(&tmp, &str, -8);
 
-    return free_and_pass(&str, 0);
+    return free_two_pass(&tmp, &str, 0);
 }
 
 int test_my_str_cmp_cstr() {
@@ -524,7 +389,7 @@ int test_my_str_cmp_cstr() {
     if (my_str_cmp_cstr(&str, "c") != -1) return free_and_pass(&str, -3);
 
     if (my_str_from_cstr(&str, "klmnop", 0) != 0) return free_and_pass(&str, -13);
-    if (my_str_cmp_cstr(&str, "asdasd") != 1) return free_and_pass(&str, -4);
+    if (my_str_cmp_cstr(&str, "asdasd") != 1) return free_and_pass(&str, -9);
 
     if (my_str_cmp_cstr(&str, "b") != 1) return free_and_pass(&str, -5);
 
@@ -546,7 +411,7 @@ int test_my_str_find_c() {
 
     if (my_str_find_c(&str, 't', 0) != 0) return free_and_pass(&str, -2);
     if (my_str_find_c(&str, 't', 1) != 7) return free_and_pass(&str, -3);
-    if (my_str_find_c(&str, 't', 9) != 9) return free_and_pass(&str, -4);
+    if (my_str_find_c(&str, 't', 9) != 9) return free_and_pass(&str, -12);
     if (my_str_find_c(&str, 't', 10) != 12) return free_and_pass(&str, -5);
     if (my_str_find_c(&str, 't', 13) != -1) return free_and_pass(&str, -6);
     if (my_str_find_c(&str, 't', 100) != -1) return free_and_pass(&str, -7);
@@ -578,7 +443,7 @@ int test_my_str_find_if() {
     if (my_str_create(&str, 1) != 0) return free_and_pass(&str, -12);
     if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return free_and_pass(&str, -13);
 
-    if (my_str_find_if(&str, five_mod_pred) != (size_t) (4)) return free_and_pass(&str, -1);
+    if (my_str_find_if(&str, five_mod_pred) + 1 != (size_t) (5)) return free_and_pass(&str, -1);
     if (my_str_find_if(&str, false_pred) != (size_t) (-1)) return free_and_pass(&str, -2);
     return free_and_pass(&str, 0);
 }
@@ -624,7 +489,7 @@ int test_my_str_read_file_delim() {
 
 //    delimiter on the firs page
     if (my_str_read_file_delim(&str, alice_p, 'E') != 0) return free_close_and_pass(&str, alice_p, -3);
-    if (str.size_m != 28 && str.data[27] == 'S') return free_close_and_pass(&str, alice_p, -4);
+    if (str.size_m != 28 && str.data[27] == 'S') return free_close_and_pass(&str, alice_p, -6);
     rewind(alice_p);
 
 //    delimiter is not in file

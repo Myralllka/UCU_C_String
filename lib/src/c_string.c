@@ -254,7 +254,7 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
         str->size_m = new_size;
         return 0;
     }
-    if (!my_str_reserve(str, new_size))
+    if (my_str_reserve(str, new_size) != 0)
         return -1;
     for (size_t i = str->size_m; i < new_size; i++) {
         str->data[i] = sym;
@@ -280,9 +280,9 @@ size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
     // from - place from where we have to search
     // if from os greater then size, we cant find it.
     // return number of begin of substring if it is occur, (size_t)(-1) otherwise.
-    if (str == NULL) return 1;
-    if (str->size_m < tofind->size_m) return 1;
-    if (from >= str->size_m) return 2;
+    if (str == NULL) return (size_t) (-1);
+    if (str->size_m < tofind->size_m) return (size_t) (-1);
+    if (from >= str->size_m) return (size_t) (-1);
     if (tofind->size_m == 0) return (size_t)(-1);
     size_t i = from, match = 0;
     while (i < str->size_m && match < tofind->size_m) {
