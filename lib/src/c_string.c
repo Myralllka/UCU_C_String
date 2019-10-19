@@ -73,7 +73,7 @@ int my_str_empty(const my_str_t *str) {
 int my_str_getc(const my_str_t *str, size_t index) {
     // return -1 if index is incorrect, otherwise the char on needed position
     if (str == NULL) return -1;
-    if ((index > str->size_m - 1) || (index < 0)) return -1;
+    if (index > str->size_m - 1) return -1;
     return str->data[index];
 }
 
@@ -81,7 +81,7 @@ int my_str_putc(my_str_t *str, size_t index, char c) {
     // return -1 if index is incorrect, otherwise 0
     // and put char c on the index place
     if (str == NULL) return -1;
-    if ((index >= str->size_m) || (index < 0)) return -1;
+    if (index >= str->size_m) return -1;
     str->data[index] = c;
     return 0;
 }
@@ -125,7 +125,7 @@ int my_str_copy(const my_str_t *from, my_str_t *to, int reserve) {
     // If reserve is true, then buffer of new str is equal to previous one, otherwise minimum possible value
     // return 0 if there is no mistakes
     // return -1 if there no memory left
-    int new_buffer;
+    size_t new_buffer;
     if (reserve)
         new_buffer = from->capacity_m;
     else
@@ -202,7 +202,7 @@ static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
     // helper function for my_str_substr
     // check borders (the first and the last indexes)
     // return TODO: WHAT does it return and when?)
-    if (!(beg >= 0 && beg < str->size_m) || *end < beg)
+    if (beg >= str->size_m || *end < beg)
         return 0;
     if (*end > str->size_m)
         *end = str->size_m;
@@ -261,8 +261,6 @@ int my_str_resize(my_str_t *str, size_t new_size, char sym) {
     // if new size is greater then current size
     // resize it and set all new symbols as `sym`
     // return 0 if everything is ok, negative numbers otherwise
-    if (new_size < 0)
-        return -1;
     if (new_size <= str->size_m) {
         str->size_m = new_size;
         return 0;
@@ -297,7 +295,7 @@ size_t my_str_find(const my_str_t *str, const my_str_t *tofind, size_t from) {
     // return number of begin of substring if it is occur, (size_t)(-1) otherwise.
     if (str == NULL) return 1;
     if (str->size_m < tofind->size_m) return 1;
-    if (from >= str->size_m || from < 0) return 2;
+    if (from >= str->size_m) return 2;
     if (tofind->size_m == 0) return (size_t)(-1);
     size_t i = from, match = 0;
     while (i < str->size_m && match < tofind->size_m) {
@@ -393,11 +391,16 @@ int my_str_write_file(const my_str_t *str, FILE *file) {
     // write string to the file
     // return 0 if everything ok, negative numbers otherwise
     my_str_t printed_str;
-    if (my_str_create(&printed_str, 0) != 0)
+    if (my_str_create(&printed_str, 0) != 0) {
+        my_str_free(&printed_str);
         return -1;
-    if (my_str_copy(str, &printed_str, 1) != 0)
+    }
+    if (my_str_copy(str, &printed_str, 1) != 0) {
+        my_str_free(&printed_str);
         return -2;
+    }
     fprintf(file, "%s", my_str_get_cstr(&printed_str));
+    my_str_free(&printed_str);
     return 0;
 }
 
