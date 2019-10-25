@@ -44,13 +44,6 @@ char to_lower(char c) {
         }
 }
 
-void swap(char *elements, int k, int t) {
-    // helper function to swap two elements within one array
-    char tmp = elements[k];
-    elements[k] = elements[t];
-    elements[t] = tmp;
-}
-
 int is_alpha(char c) {
     char letters[52] = {'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e',
                         'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j',
@@ -63,26 +56,15 @@ int is_alpha(char c) {
     return -1;
 }
 
-size_t partition(char *elements, int a, int b) {
-    // partition function for quick sort
-    char x = elements[b];
-    int i = a - 1;
-
-    for (int j = a; j < b; j++) {
-        if (to_lower(elements[j]) < to_lower(x)) {
-            i++;
-            swap(elements, i, j);
+void insertionSort(char* elements, size_t a, size_t b) {
+    for (size_t i = a + 1; i < b + 1; i++) {
+        char x = elements[i];
+        size_t j = i - 1;
+        while (to_lower(elements[j]) > to_lower(x) && j >= a) {
+            elements[j + 1] = elements[j];
+            j--;
         }
-    }
-    swap(elements, i + 1, b);
-    return ++i;
-}
-
-void quickSort(char *elements, int a, int b) {
-    if (a < b) {
-        size_t q = partition(elements, a, b);
-        quickSort(elements, a, q - 1);
-        quickSort(elements, q + 1, b);
+        elements[j + 1] = x;
     }
 }
 
@@ -94,7 +76,7 @@ void my_str_sort_words(my_str_t *str) {
         if (is_alpha(str -> data[i]) == 0) {
             word_end++;
         } else {
-            quickSort(str -> data, word_start, word_end);
+            insertionSort(str -> data, word_start, word_end);
             if (i + 1 < n)
                 word_start = i + 1;
             word_end = i;
