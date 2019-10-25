@@ -279,7 +279,6 @@ int test_my_str_reserve() {
     return free_and_pass(&str, 0);
 }
 
-
 int test_my_str_shrink_to_fit() {
     my_str_t str;
     my_str_create(&str, 0);
@@ -407,7 +406,7 @@ int test_my_str_cmp_cstr() {
 int test_my_str_find_c() {
     my_str_t str;
     if (my_str_create(&str, 1) != 0) return -12;
-    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return -13;
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return free_and_pass(&str, -13);
 
     if (my_str_find_c(&str, 't', 0) != 0) return free_and_pass(&str, -2);
     if (my_str_find_c(&str, 't', 1) != 7) return free_and_pass(&str, -3);

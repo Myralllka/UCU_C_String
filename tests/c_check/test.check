@@ -1,0 +1,462 @@
+#include "../../lib/include/c_string.h"
+#include <ctype.h>
+
+
+void free_and_pass(my_str_t *str, char* msg) {
+    my_str_free(str);
+    fail(msg);
+}
+
+void free_two_pass(my_str_t *str1, my_str_t *str2, char* msg) {
+    my_str_free(str1);
+    my_str_free(str2);
+    fail(msg);
+}
+
+void free_close_and_pass(my_str_t *str, FILE *file, char* msg) {
+    my_str_free(str);
+    fclose(file);
+    fail(msg);
+}
+
+
+int false_pred(int c) {
+    return 0;
+}
+
+int five_mod_pred(int c) {
+    switch ((char) c) {
+        case 'a':
+        case 'b':
+        case 'c':
+            return 1;
+    }
+    return 0;
+}
+
+
+#test test_my_str_create
+    my_str_t str;
+    my_str_create(&str, 1);
+    if (!my_str_create(NULL, 0)) free_and_pass(&str, "Not reacted on NULL argument!");
+    if (str.data == NULL) free_and_pass(&str, "String 'data' argument is NULL!");
+    my_str_free(&str);
+
+
+#test test_my_str_from_cstr
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *ccc = "hello my dear";
+    my_str_from_cstr(&str, ccc, 0);
+    for (size_t i = 0; i < str.size_m; i++) {
+        if (str.data[i] != ccc[i]) free_and_pass(&str, "Bad copy process!");
+    }
+    if (str.size_m != 13) fail("Bad message size!");
+    if (str.capacity_m != str.size_m + 1) free_and_pass(&str, "Bad capacity of the message!");
+    my_str_free(&str);
+
+
+#test test_my_str_size
+    my_str_t str;
+    my_str_create(&str, 7);
+    if (str.size_m != my_str_size(&str)) free_and_pass(&str, "Not valid size returned!");
+    my_str_free(&str);
+
+
+#test test_my_str_capacity
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *ccc = "hello";
+    my_str_from_cstr(&str, ccc, 0);
+    if (str.capacity_m != my_str_capacity(&str)) free_and_pass(&str, "Not valid capacity returned!");
+    my_str_free(&str);
+
+
+#test test_my_str_empty
+    my_str_t str;
+    my_str_t empty_str;
+    my_str_create(&str, 1);
+    my_str_create(&empty_str, 1);
+    my_str_from_cstr(&str, "hello", 0);
+    if (!my_str_empty(&empty_str)) free_two_pass(&str, &empty_str, "Fail to define that created string is empty!");
+    if (my_str_empty(&str)) free_two_pass(&str, &empty_str, "Define that not empty string is empty!");
+    my_str_free(&str);
+    my_str_free(&empty_str);
+
+
+#test test_my_str_getc
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    if (my_str_getc(&str, 0) != 'h') free_and_pass(&str, "Not right character returned");
+    if (my_str_getc(&str, 6) != 'w') free_and_pass(&str, "Not right character returned");
+    if (my_str_getc(&str, 10) != 'd') free_and_pass(&str, "Not right character returned");
+    if (!my_str_getc(&str, -45)) free_and_pass(&str, "Does not throw an error when negativ index given");
+    if (!my_str_getc(&str, 12)) free_and_pass(&str, "Does not throw an error when invalid index given");
+    my_str_free(&str);
+
+
+#test test_my_str_putc
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello my dear friend", 0);
+    my_str_putc(&str, 0, 'p');
+    my_str_putc(&str, str.size_m - 1, 'a');
+    if (str.data[0] != 'p') free_and_pass(&str, "Do not put character to the right place in the string!");
+    if (str.data[str.size_m - 1] != 'a') free_and_pass(&str, "Do not put character to the right place in the string!");
+    if (!my_str_putc(&str, -1, 'a')) free_and_pass(&str, "Do not validate the arguments!");
+    if (!my_str_putc(&str, str.size_m, 'a')) free_and_pass(&str, "Do not validate the arguments!");
+    my_str_free(&str);
+
+
+#test test_my_str_get_cstr
+    char *sample = "hello world";
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, sample, 0);
+    const char *res = my_str_get_cstr(&str);
+
+    if (char_arr_len(res) != char_arr_len(sample)) free_and_pass(&str, "Different length of the copy!");
+
+    for (size_t i = 0; i < char_arr_len(res); ++i)
+        if (res[i] != sample[i]) free_and_pass(&str, "Do not return right character!");
+    my_str_free(&str);
+
+
+#test test_my_str_pushback
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_pushback(&str, ' ');
+    my_str_pushback(&str, 'n');
+    my_str_pushback(&str, 'o');
+    if (str.data[str.size_m - 1] != 'o') free_and_pass(&str, "Do not push character to the end of the string!");
+    my_str_free(&str);
+
+
+#test test_my_str_popback
+    my_str_t str;
+    my_str_create(&str, 1);
+    if (!my_str_popback(&str)) fail("Pop from empty string!");
+    my_str_from_cstr(&str, "hello world", 0);
+    int c = my_str_popback(&str);
+    if (str.data[str.size_m - 1] != 'l') free_and_pass(&str, "Do not pop from the end of the string!");
+    if (c != 'd') fail("Do not return valid last character from the string!");
+    my_str_free(&str);
+
+
+#test test_my_str_copy
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello world", 0);
+    my_str_copy(&str1, &str2, 1);
+    if (str2.data[str2.size_m - 1] != 'd') free_two_pass(&str1, &str2, "Do not make a copy!");
+    my_str_free(&str1);
+    my_str_free(&str2);
+
+
+#test test_my_str_insert_c
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_insert_c(&str, 'A', 0);
+    if (str.data[0] != 'A') free_and_pass(&str, "Do not insert a character to the selected position!");
+    my_str_insert_c(&str, 'A', str.size_m);
+    if (str.data[str.size_m - 1] != 'A') free_and_pass(&str, "Do not insert a character to the selected position!");
+    my_str_insert_c(&str, 'A', 3);
+    if (str.data[3] != 'A') return free_and_pass(&str, "Do not insert a character to the selected position!");
+    my_str_free(&str);
+
+
+#test test_my_str_insert
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_insert(&str1, &str2, str1.size_m);
+    if (str2.data[str2.size_m - 1] != 'd') free_two_pass(&str1, &str2, "Do not insert a character to the selected position!");
+    my_str_insert(&str1, &str2, 0);
+    if (!isspace(str2.data[0])) free_two_pass(&str1, &str2, "Do not insert a character to the selected position!");
+    my_str_free(&str1);
+    my_str_free(&str2);
+
+
+#test test_my_str_insert_cstr
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_insert_cstr(&str, c, str.size_m);
+    if (str.data[str.size_m - 1] != 'd') free_and_pass(&str, "Do not insert the char array correctly!");
+    my_str_free(&str);
+
+
+#test test_my_str_append
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello", 0);
+    my_str_from_cstr(&str2, " world", 0);
+    my_str_append(&str1, &str2);
+    if (str2.data[str2.size_m - 1] != 'd') free_two_pass(&str1, &str2, "Do not append the string correctly!");
+    my_str_free(&str1);
+    my_str_free(&str2);
+
+
+#test test_my_str_append_cstr
+    my_str_t str;
+    my_str_create(&str, 0);
+    char *c = " world";
+    my_str_from_cstr(&str, "hello", 0);
+    my_str_append_cstr(&str, c);
+    if (str.data[str.size_m - 1] != 'd') free_and_pass(&str, "Do not insert the char array correctly!");
+    my_str_free(&str);
+
+
+#test test_my_str_substr
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 0);
+    my_str_create(&str2, 0);
+    my_str_from_cstr(&str1, "hello world", 0);
+    my_str_substr(&str1, &str2, 0, 5);
+    if (str2.data[str2.size_m - 1] != 'o') free_two_pass(&str1, &str2, "Do not cut the string correctly!");
+    my_str_free(&str1);
+    my_str_free(&str2);
+
+
+#test test_my_str_substr_cstr
+    my_str_t str;
+    char c[10];
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    my_str_substr_cstr(&str, c, 0, 5);
+    if (c[4] != 'o') free_and_pass(&str, "Do not cut the string correctly!");;
+    if (!my_str_substr_cstr(&str, c, -3, 5)) free_and_pass(&str, "Do not validate the arguments!");
+    if (my_str_substr_cstr(&str, c, 3, 45)) free_and_pass(&str, "Do not cut the string!");
+    my_str_free(&str);
+
+
+#test test_my_str_reserve
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+    size_t old_buf_size = str.capacity_m;
+    my_str_reserve(&str, 100);
+    if (str.capacity_m == old_buf_size) free_and_pass(&str, "Do not reserve capacity!");
+    my_str_free(&str);
+
+
+#test test_my_str_shrink_to_fit
+    my_str_t str;
+    my_str_create(&str, 0);
+    my_str_from_cstr(&str, "hello wonderful world, hello my dear people, hello everybody", 0);
+    my_str_append_cstr(&str, "hello");
+    my_str_shrink_to_fit(&str);
+    if (str.size_m + 1 != str.capacity_m) free_and_pass(&str, "Do not shrink the capacity of string!");
+    my_str_free(&str);
+
+
+#test test_my_str_resize
+    my_str_t str;
+    my_str_create(&str, 1);
+    my_str_from_cstr(&str, "hello world", 0);
+
+    size_t old_buf_size = str.capacity_m;
+    my_str_resize(&str, char_arr_len("hello"), 'N');
+    if (str.size_m != char_arr_len("hello")) free_and_pass(&str, "Do not resize properly!");
+    if (str.capacity_m != char_arr_len("hello world") + 1) free_and_pass(&str, "Do not resize properly!");
+
+    my_str_resize(&str, char_arr_len("helloNNNNNNNNNN"), 'N');
+    if (str.size_m != char_arr_len("helloNNNNNNNNNN")) free_and_pass(&str, "Do not resize properly!");
+    if (my_str_cmp_cstr(&str, "helloNNNNNNNNNN") != 0) free_and_pass(&str, "Do not set new values right!");
+    my_str_free(&str);
+
+
+#test test_my_str_find
+    my_str_t str1;
+    my_str_t str2;
+    my_str_create(&str1, 1);
+    my_str_create(&str2, 1);
+    my_str_from_cstr(&str1, "hello world", 0);
+
+    if (my_str_find(&str1, &str1, 0) != 0) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, "h", 0);
+    if (my_str_find(&str1, &str2, 0) != 0) free_two_pass(&str1, &str2, "Do not search right!");
+    if (my_str_find(&str1, &str2, 5) != (size_t) (-1)) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, "ello", 0);
+    if (my_str_find(&str1, &str2, 0) != 1) free_two_pass(&str1, &str2, "Do not search right!");
+    if (my_str_find(&str1, &str2, 1) != 1) free_two_pass(&str1, &str2, "Do not search right!");
+    if (my_str_find(&str1, &str2, 20) != (size_t) (-1)) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, " w", 5);
+    if (my_str_find(&str1, &str2, 0) != 5) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, "2w", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, "hello world1", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_from_cstr(&str2, "z", 0);
+    if (my_str_find(&str1, &str2, 0) != (size_t) (-1)) free_two_pass(&str1, &str2, "Do not search right!");
+
+    my_str_free(&str1);
+    my_str_free(&str2);
+
+
+#test test_my_str_cmp
+    my_str_t str;
+    my_str_t tmp;
+    if (my_str_create(&str, 1) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_create(&tmp, 1) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_from_cstr(&str, "abcd", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&tmp, "a", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&tmp, "bcscas", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != -1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&tmp, "c", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != -1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "klmnop", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_from_cstr(&tmp, "asdasd", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&tmp, "b", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "gfg", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_from_cstr(&tmp, "gbasd", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 1) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&tmp, "gfg", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "v", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_from_cstr(&tmp, "v", 0) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+    if (my_str_cmp(&str, &tmp) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
+
+    my_str_free(&tmp);
+    my_str_free(&str);
+
+
+#test test_my_str_cmp_cstr
+    my_str_t str;
+
+    if (my_str_create(&str, 1) != 0) free_and_pass(&str, "Do not compare right!");
+    if (my_str_from_cstr(&str, "abcd", 0) != 0) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_cmp_cstr(&str, "a") != 1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_cmp_cstr(&str, "bcscas") != -1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_cmp_cstr(&str, "c") != -1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "klmnop", 0) != 0) free_and_pass(&str, "Do not compare right!");
+    if (my_str_cmp_cstr(&str, "asdasd") != 1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_cmp_cstr(&str, "b") != 1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "gfg", 0) != 0) free_and_pass(&str, "Do not compare right!");
+    if (my_str_cmp_cstr(&str, "gbasd") != 1) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_cmp_cstr(&str, "gfg") != 0) free_and_pass(&str, "Do not compare right!");
+
+    if (my_str_from_cstr(&str, "v", 0) != 0) free_and_pass(&str, "Do not compare right!");
+    if (my_str_cmp_cstr(&str, "v") != 0) free_and_pass(&str, "Do not compare right!");
+
+    my_str_free(&str);
+
+
+#test test_my_str_find_c
+    my_str_t str;
+    if (my_str_create(&str, 1) != 0) return -12;
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return free_and_pass(&str, "Don not find right!");
+
+    if (my_str_find_c(&str, 't', 0) != 0) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 1) != 7) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 9) != 9) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 10) != 12) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 13) != -1) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 100) != -1) return free_and_pass(&str, "Don not find right!");
+
+    if (my_str_find_c(&str, 'e', 0) != 2) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 'e', 14) != 16) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 'e', 15) != 16) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, '\n', 15) != 42) return free_and_pass(&str, "Don not find right!");
+
+    my_str_free(&str);
+
+
+#test test_my_str_find_if
+    my_str_t str;
+    if (my_str_create(&str, 1) != 0) free_and_pass(&str, "Do not create string!");
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) free_and_pass(&str, "Do not copy!");
+
+    if (my_str_find_if(&str, five_mod_pred) + 1 != (size_t) (5)) free_and_pass(&str, "Do not find right!");
+    if (my_str_find_if(&str, false_pred) != (size_t) (-1)) free_and_pass(&str, "Do not find right!");
+    my_str_free(&str);
+
+
+#test test_my_str_read_file
+    // read the file docs/alice29.txt and checks the number of characters that should be 152089
+    my_str_t str;
+    FILE *alice_p = fopen("../docs/alice29.txt", "r");
+
+    if (alice_p == NULL) free_and_pass(&str, "Do not open the file!");
+    if (my_str_create(&str, 1) != 0) free_close_and_pass(&str, alice_p, "Do not creat the string");
+
+//    delimiter is not in file
+    if (my_str_read_file(&str, alice_p) != 0) free_close_and_pass(&str, alice_p, "Do not read a string from file!");
+    if (str.size_m != 152089) free_close_and_pass(&str, alice_p, "Do not read properly from file!");
+
+    my_str_free(&str);
+    fclose(alice_p);
+
+
+#test test_my_str_write_file
+    // create file "docs/test_out.txt" with content "test_my_str_write_file\n"
+    my_str_t str;
+    FILE *output_p = fopen("../docs/test_out.txt", "w");
+
+    if (output_p == NULL) free_and_pass(&str, "Do not open the file!");
+    if (my_str_create(&str, 1) != 0) free_close_and_pass(&str, output_p, "Do not create the string!");
+    if (my_str_from_cstr(&str, "test_my_str_write_file\n", 0) != 0) free_close_and_pass(&str, output_p, "Do not copy the string from source!");
+    if (my_str_write_file(&str, output_p) != 0) free_close_and_pass(&str, output_p, "Do not write to the file!");
+
+    my_str_free(&str);
+    fclose(output_p);
+
+
+#test test_my_str_read_file_delim
+    my_str_t str;
+    FILE* alice_p = fopen("../docs/alice29.txt", "r");
+    if (alice_p == NULL) free_and_pass(&str, "Do not open the file!");
+    my_str_create(&str, 1);
+
+//    delimiter on the very beginning
+    if (my_str_read_file_delim(&str, alice_p, '\r') != 0) free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+    if (str.size_m) free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+    rewind(alice_p);  // reset the cursor of the file
+
+//    delimiter on the firs page
+    if (my_str_read_file_delim(&str, alice_p, 'E') != 0) free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+    if (str.size_m != 28 && str.data[27] == 'S') free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+    rewind(alice_p);
+
+//    delimiter is not in file
+    if (my_str_read_file_delim(&str, alice_p, '{') != 0) free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+    if (str.size_m != 152089) free_close_and_pass(&str, alice_p, "Do not read the file to the delimiter properly!");
+
+    my_str_free(&str);
+    fclose(alice_p);

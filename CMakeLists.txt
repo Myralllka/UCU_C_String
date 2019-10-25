@@ -41,6 +41,9 @@ add_library(${LIB_NAME} SHARED lib/src/c_string.c lib/include/c_string.h)
 add_executable(${TEST_NAME} tests/test.c tests/test.h)
 target_link_libraries(${TEST_NAME} ${LIB_NAME})
 
+add_executable(${TEST_NAME}_check tests/c_check/test.c)
+target_link_libraries(${TEST_NAME}_check ${LIB_NAME} check)
+
 add_executable(${EXEC_NAME} main.c)
 target_link_libraries(${EXEC_NAME} ${LIB_NAME})
 
