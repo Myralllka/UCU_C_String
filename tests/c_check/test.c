@@ -8,7 +8,7 @@
 #line 1 "test.check"
 #include "../../lib/include/c_string.h"
 #include <ctype.h>
-
+#include <string.h>
 
 void free_and_pass(my_str_t *str, char* msg) {
     my_str_free(str);
@@ -161,9 +161,9 @@ START_TEST(test_my_str_get_cstr)
     my_str_from_cstr(&str, sample, 0);
     const char *res = my_str_get_cstr(&str);
 
-    if (char_arr_len(res) != char_arr_len(sample)) free_and_pass(&str, "Different length of the copy!");
+    if (strlen(res) != strlen(sample)) free_and_pass(&str, "Different length of the copy!");
 
-    for (size_t i = 0; i < char_arr_len(res); ++i)
+    for (size_t i = 0; i < strlen(res); ++i)
         if (res[i] != sample[i]) free_and_pass(&str, "Do not return right character!");
     my_str_free(&str);
 
@@ -378,12 +378,12 @@ START_TEST(test_my_str_resize)
     my_str_from_cstr(&str, "hello world", 0);
 
     size_t old_buf_size = str.capacity_m;
-    my_str_resize(&str, char_arr_len("hello"), 'N');
-    if (str.size_m != char_arr_len("hello")) free_and_pass(&str, "Do not resize properly!");
-    if (str.capacity_m != char_arr_len("hello world") + 1) free_and_pass(&str, "Do not resize properly!");
+    my_str_resize(&str, strlen("hello"), 'N');
+    if (str.size_m != strlen("hello")) free_and_pass(&str, "Do not resize properly!");
+    if (str.capacity_m != strlen("hello world") + 1) free_and_pass(&str, "Do not resize properly!");
 
-    my_str_resize(&str, char_arr_len("helloNNNNNNNNNN"), 'N');
-    if (str.size_m != char_arr_len("helloNNNNNNNNNN")) free_and_pass(&str, "Do not resize properly!");
+    my_str_resize(&str, strlen("helloNNNNNNNNNN"), 'N');
+    if (str.size_m != strlen("helloNNNNNNNNNN")) free_and_pass(&str, "Do not resize properly!");
     if (my_str_cmp_cstr(&str, "helloNNNNNNNNNN") != 0) free_and_pass(&str, "Do not set new values right!");
     my_str_free(&str);
 

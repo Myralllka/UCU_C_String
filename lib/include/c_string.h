@@ -78,14 +78,4 @@ int my_str_write(const my_str_t *str);
 
 int my_str_read_file_delim(my_str_t *str, FILE *file, char delimiter);
 
-
-/*******************HELPER_FUNCTIONS**********************************/
-int my_str_realloc(my_str_t *str, size_t buffer);
-
-void char_arr_copy(const char *arr, size_t to_index, char *arr_copy);
-
-size_t char_arr_len(const char *s);
-
-int check_borders(const my_str_t *str, size_t beg, size_t *end);
-/*********************************************************************/
 #endif //CSTRING_LIBRARY_H

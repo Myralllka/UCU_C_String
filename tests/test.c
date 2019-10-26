@@ -3,7 +3,7 @@
 #include "test.h"
 #include "../lib/include/c_string.h"
 #include <ctype.h>
-
+#include <string.h>
 
 int main() {
     return tests();
@@ -145,9 +145,9 @@ int test_my_str_get_cstr() {
     my_str_from_cstr(&str, sample, 0);
     const char *res = my_str_get_cstr(&str);
 
-    if (char_arr_len(res) != char_arr_len(sample)) return free_and_pass(&str, -1);
+    if (strlen(res) != strlen(sample)) return free_and_pass(&str, -1);
 
-    for (size_t i = 0; i < char_arr_len(res); ++i)
+    for (size_t i = 0; i < strlen(res); ++i)
         if (res[i] != sample[i]) return free_and_pass(&str, -1);
     return free_and_pass(&str, 0);
 }
@@ -295,12 +295,12 @@ int test_my_str_resize() {
     my_str_from_cstr(&str, "hello world", 0);
 
     size_t old_buf_size = str.capacity_m;
-    my_str_resize(&str, char_arr_len("hello"), 'N');
-    if (str.size_m != char_arr_len("hello")) return free_and_pass(&str, -1);
-    if (str.capacity_m != char_arr_len("hello world") + 1) return free_and_pass(&str, -2);
+    my_str_resize(&str, strlen("hello"), 'N');
+    if (str.size_m != strlen("hello")) return free_and_pass(&str, -1);
+    if (str.capacity_m != strlen("hello world") + 1) return free_and_pass(&str, -2);
 
-    my_str_resize(&str, char_arr_len("helloNNNNNNNNNN"), 'N');
-    if (str.size_m != char_arr_len("helloNNNNNNNNNN")) return free_and_pass(&str, -3);
+    my_str_resize(&str, strlen("helloNNNNNNNNNN"), 'N');
+    if (str.size_m != strlen("helloNNNNNNNNNN")) return free_and_pass(&str, -3);
     if (my_str_cmp_cstr(&str, "helloNNNNNNNNNN") != 0) return free_and_pass(&str, -5);
     return free_and_pass(&str, 0);
 }
