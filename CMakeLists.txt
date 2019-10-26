@@ -18,9 +18,6 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-#set(CMAKE_C_EXTENSIONS FALSE) # ???
-#file(GLOB SOURCES src/*.c include/*.h)
-
 ## compilation mode: release OR debug
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
@@ -52,7 +49,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/compare_efficiency/CMakeLists.txt)
 #####################################
 ## create own target for library
 #pvs_studio_add_target(TARGET ${PROJECT_NAME}.analyze ALL
-#        ANALYZE ${EXEC_NAME} ${LIB_NAME} ${TEST_NAME}
+#        ANALYZE ${EXEC_NAME} ${LIB_NAME} ${TEST_NAME} ${TEST_NAME}_check
 #        OUTPUT FORMAT errorfile
 #        MODE GA:1,2,3 OP:1,2,3 GA:1,2,3 OP:1,2,3 64:1,2,3 CS:1,2,3 MISRA:1,2,3
 #        LOG target_${PROJECT_NAME}.err)
