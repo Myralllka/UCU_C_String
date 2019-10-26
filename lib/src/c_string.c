@@ -435,7 +435,7 @@ size_t char_arr_len(const char *s) {
     return i;
 }
 
-static int check_borders(const my_str_t *str, size_t beg, size_t *end) {
+int check_borders(const my_str_t *str, size_t beg, size_t *end) {
     // helper function for my_str_substr
     // check borders (the first and the last indexes)
     // return bool = 1 if the string with boarders 'beg' and 'end' fit into 'str' else 0

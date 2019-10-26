@@ -86,6 +86,6 @@ void char_arr_copy(const char *arr, size_t to_index, char *arr_copy);
 
 size_t char_arr_len(const char *s);
 
-static int check_borders(const my_str_t *str, size_t beg, size_t *end);
+int check_borders(const my_str_t *str, size_t beg, size_t *end);
 /*********************************************************************/
 #endif //CSTRING_LIBRARY_H
