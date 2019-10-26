@@ -1,2 +1,2 @@
-#!/usr/bin/zsh
+#!/bin/bash
 checkmk test.check > test.c

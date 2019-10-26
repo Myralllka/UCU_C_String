@@ -17,7 +17,7 @@ do
 done
 
 # install all dependencies if necessary
-for command in dependencies
+for command in ${dependencies}
 do
     if ! type checkmk > /dev/null 2>&1; then
         eval "${package_manager} ${command}";

@@ -161,9 +161,18 @@ START_TEST(test_my_str_get_cstr)
     my_str_from_cstr(&str, sample, 0);
     const char *res = my_str_get_cstr(&str);
 
-    if (strlen(res) != strlen(sample)) free_and_pass(&str, "Different length of the copy!");
+    if (
+            strlen(res)
+            !=
+            strlen(sample)
+            )
+        free_and_pass(&str,
+                      "Different length of the copy!");
 
-    for (size_t i = 0; i < strlen(res); ++i)
+    for (
+            size_t i = 0;
+            i < strlen(res);
+            ++i)
         if (res[i] != sample[i]) free_and_pass(&str, "Do not return right character!");
     my_str_free(&str);
 
@@ -173,7 +182,7 @@ END_TEST
 
 START_TEST(test_my_str_pushback)
 {
-#line 127
+#line 136
     my_str_t str;
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
@@ -189,7 +198,7 @@ END_TEST
 
 START_TEST(test_my_str_popback)
 {
-#line 138
+#line 147
     my_str_t str;
     my_str_create(&str, 1);
     if (!my_str_popback(&str)) fail("Pop from empty string!");
@@ -205,7 +214,7 @@ END_TEST
 
 START_TEST(test_my_str_copy)
 {
-#line 149
+#line 158
     my_str_t str1;
     my_str_t str2;
     my_str_create(&str1, 1);
@@ -222,7 +231,7 @@ END_TEST
 
 START_TEST(test_my_str_insert_c)
 {
-#line 161
+#line 170
     my_str_t str;
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
@@ -240,7 +249,7 @@ END_TEST
 
 START_TEST(test_my_str_insert)
 {
-#line 174
+#line 183
     my_str_t str1;
     my_str_t str2;
     my_str_create(&str1, 1);
@@ -260,7 +269,7 @@ END_TEST
 
 START_TEST(test_my_str_insert_cstr)
 {
-#line 189
+#line 198
     my_str_t str;
     my_str_create(&str, 0);
     char *c = " world";
@@ -275,7 +284,7 @@ END_TEST
 
 START_TEST(test_my_str_append)
 {
-#line 199
+#line 208
     my_str_t str1;
     my_str_t str2;
     my_str_create(&str1, 1);
@@ -293,7 +302,7 @@ END_TEST
 
 START_TEST(test_my_str_append_cstr)
 {
-#line 212
+#line 221
     my_str_t str;
     my_str_create(&str, 0);
     char *c = " world";
@@ -308,7 +317,7 @@ END_TEST
 
 START_TEST(test_my_str_substr)
 {
-#line 222
+#line 231
     my_str_t str1;
     my_str_t str2;
     my_str_create(&str1, 0);
@@ -325,7 +334,7 @@ END_TEST
 
 START_TEST(test_my_str_substr_cstr)
 {
-#line 234
+#line 243
     my_str_t str;
     char c[10];
     my_str_create(&str, 1);
@@ -342,7 +351,7 @@ END_TEST
 
 START_TEST(test_my_str_reserve)
 {
-#line 246
+#line 255
     my_str_t str;
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
@@ -357,7 +366,7 @@ END_TEST
 
 START_TEST(test_my_str_shrink_to_fit)
 {
-#line 256
+#line 265
     my_str_t str;
     my_str_create(&str, 0);
     my_str_from_cstr(&str, "hello wonderful world, hello my dear people, hello everybody", 0);
@@ -372,18 +381,26 @@ END_TEST
 
 START_TEST(test_my_str_resize)
 {
-#line 266
+#line 275
     my_str_t str;
     my_str_create(&str, 1);
     my_str_from_cstr(&str, "hello world", 0);
 
     size_t old_buf_size = str.capacity_m;
-    my_str_resize(&str, strlen("hello"), 'N');
-    if (str.size_m != strlen("hello")) free_and_pass(&str, "Do not resize properly!");
-    if (str.capacity_m != strlen("hello world") + 1) free_and_pass(&str, "Do not resize properly!");
+    my_str_resize(&str, strlen("hello"),
+                  'N');
+    if (str.size_m != strlen("hello"))
+        free_and_pass(&str,
+                      "Do not resize properly!");
+    if (str.capacity_m != strlen("hello world") + 1)
+        free_and_pass(&str,
+                      "Do not resize properly!");
 
-    my_str_resize(&str, strlen("helloNNNNNNNNNN"), 'N');
-    if (str.size_m != strlen("helloNNNNNNNNNN")) free_and_pass(&str, "Do not resize properly!");
+    my_str_resize(&str, strlen("helloNNNNNNNNNN"),
+                  'N');
+    if (str.size_m != strlen("helloNNNNNNNNNN"))
+        free_and_pass(&str,
+                      "Do not resize properly!");
     if (my_str_cmp_cstr(&str, "helloNNNNNNNNNN") != 0) free_and_pass(&str, "Do not set new values right!");
     my_str_free(&str);
 
@@ -393,7 +410,7 @@ END_TEST
 
 START_TEST(test_my_str_find)
 {
-#line 282
+#line 299
     my_str_t str1;
     my_str_t str2;
     my_str_create(&str1, 1);
@@ -432,7 +449,7 @@ END_TEST
 
 START_TEST(test_my_str_cmp)
 {
-#line 316
+#line 333
     my_str_t str;
     my_str_t tmp;
     if (my_str_create(&str, 1) != 0) free_two_pass(&tmp, &str, "Do not compare right!");
@@ -475,7 +492,7 @@ END_TEST
 
 START_TEST(test_my_str_cmp_cstr)
 {
-#line 354
+#line 371
     my_str_t str;
 
     if (my_str_create(&str, 1) != 0) free_and_pass(&str, "Do not compare right!");
@@ -508,7 +525,7 @@ END_TEST
 
 START_TEST(test_my_str_find_c)
 {
-#line 382
+#line 399
     my_str_t str;
     if (my_str_create(&str, 1) != 0) fail ("Fail to create a string!");
     if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0)
@@ -534,7 +551,7 @@ END_TEST
 
 START_TEST(test_my_str_find_if)
 {
-#line 402
+#line 419
     my_str_t str;
     if (my_str_create(&str, 1) != 0) free_and_pass(&str, "Do not create string!");
     if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) free_and_pass(&str, "Do not copy!");
@@ -549,7 +566,7 @@ END_TEST
 
 START_TEST(test_my_str_read_file)
 {
-#line 412
+#line 429
     // read the file docs/alice29.txt and checks the number of characters that should be 152089
     my_str_t str;
     FILE *alice_p = fopen("../docs/alice29.txt", "r");
@@ -570,7 +587,7 @@ END_TEST
 
 START_TEST(test_my_str_write_file)
 {
-#line 428
+#line 445
     // create file "docs/test_out.txt" with content "test_my_str_write_file\n"
     my_str_t str;
     FILE *output_p = fopen("../docs/test_out.txt", "w");
@@ -589,7 +606,7 @@ END_TEST
 
 START_TEST(test_my_str_read_file_delim)
 {
-#line 442
+#line 459
     my_str_t str;
     FILE* alice_p = fopen("../docs/alice29.txt", "r");
     if (alice_p == NULL) free_and_pass(&str, "Do not open the file!");
