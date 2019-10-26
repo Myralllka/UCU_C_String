@@ -231,7 +231,7 @@ START_TEST(test_my_str_insert_c)
     my_str_insert_c(&str, 'A', str.size_m);
     if (str.data[str.size_m - 1] != 'A') free_and_pass(&str, "Do not insert a character to the selected position!");
     my_str_insert_c(&str, 'A', 3);
-    if (str.data[3] != 'A') return free_and_pass(&str, "Do not insert a character to the selected position!");
+    if (str.data[3] != 'A') free_and_pass(&str, "Do not insert a character to the selected position!");
     my_str_free(&str);
 
 
@@ -510,20 +510,21 @@ START_TEST(test_my_str_find_c)
 {
 #line 382
     my_str_t str;
-    if (my_str_create(&str, 1) != 0) return -12;
-    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0) return free_and_pass(&str, "Don not find right!");
+    if (my_str_create(&str, 1) != 0) fail ("Fail to create a string!");
+    if (my_str_from_cstr(&str, "the best test Ever, for your good mood! :)\n", 0) != 0)
+        free_and_pass(&str, "Don not find right!");
 
-    if (my_str_find_c(&str, 't', 0) != 0) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 't', 1) != 7) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 't', 9) != 9) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 't', 10) != 12) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 't', 13) != -1) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 't', 100) != -1) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 0) != 0) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 1) != 7) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 9) != 9) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 10) != 12) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 13) != -1) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 't', 100) != -1) free_and_pass(&str, "Don not find right!");
 
-    if (my_str_find_c(&str, 'e', 0) != 2) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 'e', 14) != 16) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, 'e', 15) != 16) return free_and_pass(&str, "Don not find right!");
-    if (my_str_find_c(&str, '\n', 15) != 42) return free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 'e', 0) != 2) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 'e', 14) != 16) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, 'e', 15) != 16) free_and_pass(&str, "Don not find right!");
+    if (my_str_find_c(&str, '\n', 15) != 42) free_and_pass(&str, "Don not find right!");
 
     my_str_free(&str);
 
